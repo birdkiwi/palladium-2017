@@ -1,0 +1,122 @@
+.tour-search-block {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.tour-search-block-tabs {
+  display: flex;
+}
+
+.tour-search-block-tabs-item {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #323232;
+  margin-right: 1px;
+  padding: 12px 22px;
+  font-weight: 600;
+
+  img {
+    margin-right: 10px;
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+.tour-search-block-tabs-item-client {
+  margin-left: auto;
+  background-color: @c-navy;
+  color: #fff;
+  font-weight: normal;
+
+  &:hover {
+    background-color: lighten(@c-navy, 3%);
+  }
+
+  svg {
+    width: 12px;
+    margin-right: 10px;
+  }
+}
+
+.tour-search-block-tabs-item-active {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+}
+
+.tour-search-block-form {
+  display: flex;
+  margin: 0;
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.8);
+
+  label {
+    color: #989898;
+    display: block;
+  }
+
+  & > div {
+    flex: 1 0 auto;
+  }
+}
+
+.tour-search-block-form-submit {
+  background-color: @c-magenta;
+  border: none;
+  padding: 7px 15px;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: lighten(@c-magenta, 10%);
+  }
+}
+
+.tour-search-block-news {
+  display: flex;
+  border-top: 1px solid #4c4b4b;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+}
+
+.tour-search-block-news-item {
+  position: relative;
+  flex: 1 0 auto;
+  padding: 13px 20px;
+  font-size: 13px;
+  border-right: 1px solid #494a4a;
+  transition: all 200ms;
+  color: #fff;
+
+  &:last-child {
+    border-right: none;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transition: all 200ms;
+  }
+}
+
+.tour-search-block-news-item-title {
+  color: #888888;
+  margin-bottom: 4px;
+}
+
+.tour-search-block-news-item-label {
+  position: absolute;
+  right: 10px;
+  top: 0;
+  background-color: #8a194c;
+  color: #fff;
+  padding: 4px 6px;
+  text-shadow: 1px 1px 0 #000;
+}

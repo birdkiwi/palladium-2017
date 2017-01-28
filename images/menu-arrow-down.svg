@@ -1,0 +1,12 @@
+<svg id="menu-arrow-down.svg" xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+        fill-opacity: 0.3;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path id="Forma_1_copy_7" data-name="Forma 1 copy 7" class="cls-1" d="M511,42.945L510.066,42,507,45.107,503.933,42,503,42.945,507,47Z" transform="translate(-503 -42)"/>
+</svg>

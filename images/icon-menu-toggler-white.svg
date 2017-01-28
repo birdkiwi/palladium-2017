@@ -1,0 +1,11 @@
+<svg id="menu-toggler.svg" xmlns="http://www.w3.org/2000/svg" width="19" height="17" viewBox="0 0 19 17">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path id="Rectangle_50_copy_3" data-name="Rectangle 50 copy 3" class="cls-1" d="M40,41H59v3.094H40V41Zm0,6.969H59v3.063H40V47.969Zm0,6.938H59V58H40V54.906Z" transform="translate(-40 -41)"/>
+</svg>

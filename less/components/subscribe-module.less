@@ -1,0 +1,80 @@
+.subscribe-module {
+  position: relative;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 15px;
+    background: url("../images/subscribe-module-decor.png") no-repeat;
+    width: 15px;
+    height: 63px;
+  }
+}
+
+.subscribe-module-title {
+  border-bottom: none;
+  padding-bottom: 5px;
+
+  svg {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.subscribe-module-subtitle {
+  margin-bottom: 20px;
+  color: #3c3c3c;
+}
+
+.subscribe-module-form {
+  padding: 20px;
+
+  label {
+    display: block;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: #989898;
+
+    input, textarea, select {
+      display: block;
+      width: 100%;
+      margin-top: 5px;
+      background: #fff;
+      border: 1px solid #e1e1e1;
+      box-shadow: none;
+      height: 40px;
+      line-height: 40px;
+      padding: 0 10px;
+
+      &:focus {
+        border-color: #006fbc;
+      }
+    }
+  }
+
+  button[type="submit"] {
+    display: block;
+    width: 100%;
+    font-size: 15px;
+    .ff-noto-serif;
+    font-style: italic;
+    background-color: @c-magenta;
+    color: #fff;
+    border: none;
+    height: 40px;
+    line-height: 40px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      margin-right: 10px;
+    }
+
+    &:hover {
+      background-color: lighten(@c-magenta, 10%);
+    }
+  }
+}

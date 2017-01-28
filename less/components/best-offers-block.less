@@ -1,0 +1,102 @@
+.best-offers-block {
+  .bx-controls {
+    padding: 0 20px 15px;
+  }
+
+  .bx-pager {
+    display: flex;
+  }
+
+  .bx-pager-link {
+    display: block;
+    background-color: @c-blue;
+    width: 11px;
+    height: 11px;
+    border-radius: 8px;
+    margin-right: 7px;
+    color: transparent;
+
+    &.active {
+      background-color: @c-magenta;
+    }
+  }
+}
+
+.best-offers-block-masonry {
+  padding: 12px;
+  display: flex;
+  max-height: 720px;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.best-offers-block-item {
+  position: relative;
+  margin: 6px;
+  width: 450px;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.81), transparent);
+  }
+
+  &:hover {
+    outline: 2px solid @c-magenta;
+  }
+}
+
+.best-offers-block-item-small {
+  width: 280px;
+}
+
+.best-offers-item-image {
+  img {
+    width: 100%;
+    object-fit: cover;
+  }
+}
+
+.best-offers-item-content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+  left: 0;
+  top: 0;
+}
+
+.best-offers-item-content-title {
+  margin-left: 15px;
+  margin-top: 15px;
+  font-size: 16px;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.best-offers-item-content-subtitle {
+  margin-top: 5px;
+  margin-left: 15px;
+  font-size: 12px;
+  .ff-noto-serif;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.73);
+}
+
+.best-offers-item-content-price {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: #fff;
+  font-size: 16px;
+  background-color: rgba(229, 17, 113, 0.8);
+  padding: 5px 10px;
+}

@@ -1,0 +1,24 @@
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.ul-reset {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.placeholder(@rules) {
+  &::-webkit-input-placeholder {
+    @rules();
+  }
+  &:-moz-placeholder {
+    @rules();
+  }
+  &::-moz-placeholder {
+    @rules();
+  }
+  &:-ms-input-placeholder {
+    @rules();
+  }
+}

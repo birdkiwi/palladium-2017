@@ -1,0 +1,11 @@
+<svg id="slider-arrow-right-white.svg" xmlns="http://www.w3.org/2000/svg" width="36" height="67" viewBox="0 0 36 67">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path class="cls-1" d="M1889.44,449.164l-32.14-31.606a1.949,1.949,0,0,0-2.73,0,1.862,1.862,0,0,0,0,2.682l30.77,30.258-30.77,30.259a1.861,1.861,0,0,0,0,2.681,1.95,1.95,0,0,0,1.35.562,1.9,1.9,0,0,0,1.36-.562l32.15-31.606A1.855,1.855,0,0,0,1889.44,449.164Z" transform="translate(-1854 -417)"/>
+</svg>

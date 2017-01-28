@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 14px;
+  font-family: 'Open Sans', sans-serif;
+  background: url("../images/bg-pattern.png") repeat #000;
+  min-width: @wrapperWidth;
+  color: #3c3c3c;
+}
+
+a {
+  color: #006fbc;
+  text-decoration: none;
+}
+
+.wrapper {
+  position: relative;
+  margin: 0 auto;
+  width: @wrapperWidth;
+  padding: 0 @wrapperPadding;
+}
+
+.wrapper-columns {
+  display: flex;
+}
+
+.wrapper-columns-left {
+  width: @wrapperLeftCol;
+  margin-right: @wrapperGap;
+}
+
+.wrapper-columns-right {
+  width: @wrapperRightCol;
+}

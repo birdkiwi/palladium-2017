@@ -1,0 +1,279 @@
+.main-header {
+  min-width: @wrapperWidth;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  height: 94px;
+  line-height: 94px;
+  padding: 0 30px;
+  transition: background-color 200ms;
+}
+
+.main-header-shadow {
+  background-color: rgba(0, 0, 0, .75);
+  transition: background-color 200ms;
+}
+
+.main-header-toggler {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 30px;
+
+  a {
+    display: block;
+  }
+}
+
+.main-header-logo {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 30px;
+
+  a {
+    display: block;
+  }
+}
+
+.main-header-menu {
+  display: inline-block;
+  vertical-align: middle;
+
+  ul {
+    .ul-reset;
+  }
+
+  & > ul {
+
+    & > li {
+      display: inline-block;
+      margin-right: 30px;
+      line-height: normal;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      & > a {
+        display: inline-block;
+        color: #fff;
+        text-transform: uppercase;
+        border-bottom: 1px solid transparent;
+        padding: 6px 0;
+        transition: all 200ms;
+
+        &:hover {
+          border-color: @c-magenta;
+          transition: all 200ms;
+        }
+      }
+    }
+  }
+
+  @media all and (max-width: 1700px) {
+    display: none;
+  }
+}
+
+.main-header-menu-parent {
+  position: relative;
+
+  & > ul {
+    position: absolute;
+    box-shadow: 0 0 10px -5px rgba(0, 0, 0, 0.35);
+    top: 100%;
+    display: none;
+    width: 280px;
+    background-color: #fff;
+    border-top: 1px solid @c-magenta;
+  }
+
+  &::after {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    background: url("../images/menu-arrow-down.svg") no-repeat center;
+    width: 19px;
+    height: 17px;
+    margin-left: 5px;
+  }
+
+  &:hover {
+    & > ul {
+      display: block;
+    }
+  }
+}
+
+.main-header-menu-subparent {
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  & > a {
+    display: block;
+    padding: 6px 20px;
+
+    &:hover {
+      background-color: #006fbc;
+      color: #fff;
+    }
+  }
+
+  & > ul {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #d7d7d7;
+
+    a {
+      color: #292929;
+      display: block;
+      padding: 4px 30px;
+
+      &:hover {
+        background-color: #006fbc;
+        color: #fff;
+      }
+    }
+  }
+}
+
+.main-header-buttons {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 45px;
+}
+
+.main-header-currencies {
+  padding: 0 7px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 3px;
+  height: 26px;
+  line-height: 26px;
+  margin-right: 20px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.main-header-currencies-item {
+  display: inline-block;
+  margin-right: 5px;
+  font-size: 13px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.main-header-currencies-item-name {
+  color: rgba(255, 255, 255, 0.22);
+}
+
+.main-header-login {
+  display: inline-block;
+  padding: 0 7px;
+  border: 1px solid rgba(255, 255, 255, 0.46);
+  border-radius: 3px;
+  height: 26px;
+  line-height: 26px;
+  color: rgba(255, 255, 255, 0.6);
+
+  svg {
+    position: relative;
+    top: -1px;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+
+  &:hover {
+    color: #fff;
+    background: @c-magenta;
+    border-color: @c-magenta;
+
+    svg * {
+      fill: #fff;
+    }
+  }
+}
+
+.main-header-right {
+  float: right;
+  vertical-align: middle;
+}
+
+.main-header-currencies {
+  display: inline-block;
+}
+
+.main-header-contacts {
+  display: inline-block;
+  white-space: nowrap;
+  vertical-align: middle;
+  line-height: normal;
+}
+
+.main-header-city-choose {
+  a {
+    position: relative;
+    font-size: 14px;
+    color: #fff;
+
+    span {
+      text-decoration: underline;
+    }
+
+    svg {
+      position: absolute;
+      left: -20px;
+      top: 2px;
+    }
+
+    &:hover {
+      color: @c-magenta;
+    }
+
+    &::after {
+      content: "";
+      display: inline-block;
+      vertical-align: middle;
+      background: url("../images/menu-arrow-down.svg") no-repeat center;
+      width: 19px;
+      height: 17px;
+      margin-left: 3px;
+    }
+  }
+}
+
+.main-header-contacts-phone {
+  a {
+    position: relative;
+    color: #fff;
+    white-space: nowrap;
+    font-size: 16px;
+
+    &:hover {
+      color: @c-magenta;
+    }
+
+    svg {
+      position: absolute;
+      left: -20px;
+      top: 3px;
+    }
+  }
+}
+
+.main-header-contacts-column {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 55px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.main-header-contacts-label {
+  margin-bottom: 5px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.3);
+}

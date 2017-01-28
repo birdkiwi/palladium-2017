@@ -1,0 +1,52 @@
+.logo-module {
+  background: rgba(255, 255, 255, 0.5);
+  padding: 45px 0;
+
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.logo-module-item {
+  padding: 0 10px;
+
+  img {
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: all 150ms;
+  }
+
+  &:hover {
+    img {
+      filter: none;
+      opacity: 0.7;
+      transition: all 150ms;
+    }
+  }
+}
+
+.logo-module-item-more {
+  font-weight: 600;
+  padding: 0 10px;
+
+  svg {
+    vertical-align: middle;
+    margin-right: 10px;
+
+    * {
+      fill: @c-blue;
+    }
+  }
+
+  &:hover {
+    color: @c-magenta;
+
+    svg {
+      * {
+        fill: @c-magenta;
+      }
+    }
+  }
+}
