@@ -1,6 +1,6 @@
 <div class="content-block shadow-block best-offers-block">
-    <div class="content-block-title">
-        Лучшие предложения дня
+    <div class="content-block-title content-block-title-border">
+        <span class="tt-uppercase">Лучшие предложения дня</span>
 
         <div class="content-block-title-filter">
             <form action="#">

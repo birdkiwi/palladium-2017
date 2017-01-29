@@ -81,31 +81,5 @@
                 </select>
             </div>
         </form>
-        <div class="tour-search-block-news">
-            <a href="#" class="tour-search-block-news-item">
-                <div class="tour-search-block-news-item-label">
-                    от 12 000р.
-                </div>
-                <div class="tour-search-block-news-item-title">
-                    Анонсы
-                </div>
-                Новый тур в Доминикану с 31 марта
-            </a>
-            <a href="#" class="tour-search-block-news-item">
-                <div class="tour-search-block-news-item-title">
-                    Новости
-                </div>
-                Открыт офис продаж в Екатеринбурге
-            </a>
-            <a href="#" class="tour-search-block-news-item">
-                <div class="tour-search-block-news-item-label">
-                    от 12 000р.
-                </div>
-                <div class="tour-search-block-news-item-title">
-                    Акции
-                </div>
-                Тур в Тунис с 5 мая с 30% скидкой успейте приобрести
-            </a>
-        </div>
     </div>
 </div>

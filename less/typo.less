@@ -1,0 +1,29 @@
+.ul-magenta {
+  .ul-reset;
+  margin-top: 15px;
+  margin-bottom: 15px;
+
+  color: #707070;
+
+  li {
+    margin-top: 4px;
+    margin-bottom: 4px;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-right: 10px;
+      background-color: @c-magenta;
+    }
+  }
+}
+
+.tt-uppercase {
+  text-transform: uppercase;
+}
+
+.tt-none {
+  text-transform: none;
+}

@@ -5,7 +5,7 @@
         </a>
     </div>
     <div class="main-header-logo">
-        <a href="#">
+        <a href="index.php">
             <?php include "images/logo-white.svg"; ?>
         </a>
     </div>

@@ -12,4 +12,6 @@ window.onscroll = function() {
     }
 };
 
-// data-toggle="#news-module" data-toggle-group="sidebar"
+$(document).ready(function () {
+    $('[data-toggle]').toggler();
+});

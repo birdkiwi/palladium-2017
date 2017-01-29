@@ -1,7 +1,7 @@
 <div class="content-block shadow-block subscribe-module">
     <div class="content-block-title subscribe-module-title">
         <?php include "images/icon-email-magenta.svg"; ?>
-        Подписка
+        <span class="tt-uppercase">Подписка</span>
     </div>
 
     <form action="#" method="POST" class="subscribe-module-form">

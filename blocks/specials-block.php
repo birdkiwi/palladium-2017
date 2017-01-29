@@ -1,6 +1,6 @@
 <div class="content-block shadow-block specials-block">
-    <div class="content-block-title">
-        Акции
+    <div class="content-block-title content-block-title-border">
+        <span class="tt-uppercase">Акции</span>
 
         <div class="content-block-title-filter">
             <form action="#">
@@ -14,37 +14,33 @@
     </div>
 
     <div class="specials-block-scroller">
-        <div class="specials-block-item">
+        <a href="#" class="specials-block-item">
             <div class="specials-block-item-image">
                 <img src="images/tmp/specials-1.jpg" alt="">
             </div>
             <div class="specials-block-item-text">
                 <div class="specials-block-item-title">
-                    <a href="#">
-                        Эксклюзивное предложение от отеля MOVENPICK
-                        SIAM HOTEL PATTAYA 5 * / Таиланд
-                    </a>
+                    Эксклюзивное предложение от отеля MOVENPICK
+                    SIAM HOTEL PATTAYA 5 * / Таиланд
                 </div>
 
                 <div class="specials-block-item-desc">
                     В одной компьютерной фирме среднего пошиба была практика вкладывать в... коробку/ с компьютером краткое описание его характеристик на простом языке – для продавцов.
                 </div>
             </div>
-            <div class="specials-block-item-icon">
+            <div class="specials-block-item-icon specials-block-item-icon-bar">
                 BAR
             </div>
-        </div>
+        </a>
 
-        <div class="specials-block-item">
+        <a href="#" class="specials-block-item">
             <div class="specials-block-item-image">
                 <img src="images/tmp/specials-2.jpg" alt="">
             </div>
             <div class="specials-block-item-text">
                 <div class="specials-block-item-title">
-                    <a href="#">
-                        Комплименты от AVANI PATTAYA RESORT & SPA 5*
-                        / Таиланд
-                    </a>
+                    Комплименты от AVANI PATTAYA RESORT & SPA 5*
+                    / Таиланд
                 </div>
 
                 <div class="specials-block-item-desc">
@@ -54,18 +50,16 @@
             <div class="specials-block-item-icon">
                 BAR
             </div>
-        </div>
+        </a>
 
-        <div class="specials-block-item">
+        <a href="#" class="specials-block-item">
             <div class="specials-block-item-image">
                 <img src="images/tmp/specials-3.jpg" alt="">
             </div>
             <div class="specials-block-item-text">
                 <div class="specials-block-item-title">
-                    <a href="#">
-                        Бесплатный вход в Аквапарк и Парк развлечений
-                        для гостей MANGROVETREE RESORT WORLD SANYA 5*
-                    </a>
+                    Бесплатный вход в Аквапарк и Парк развлечений
+                    для гостей MANGROVETREE RESORT WORLD SANYA 5*
                 </div>
 
                 <div class="specials-block-item-desc">
@@ -75,18 +69,16 @@
             <div class="specials-block-item-icon">
                 BAR
             </div>
-        </div>
+        </a>
 
-        <div class="specials-block-item">
+        <a href="#" class="specials-block-item">
             <div class="specials-block-item-image">
                 <img src="images/tmp/specials-1.jpg" alt="">
             </div>
             <div class="specials-block-item-text">
                 <div class="specials-block-item-title">
-                    <a href="#">
-                        Бесплатный вход в Аквапарк и Парк развлечений
-                        для гостей MANGROVETREE RESORT WORLD SANYA 5*
-                    </a>
+                    Бесплатный вход в Аквапарк и Парк развлечений
+                    для гостей MANGROVETREE RESORT WORLD SANYA 5*
                 </div>
 
                 <div class="specials-block-item-desc">
@@ -96,7 +88,7 @@
             <div class="specials-block-item-icon">
                 BAR
             </div>
-        </div>
+        </a>
     </div>
 
     <div class="specials-block-filter">

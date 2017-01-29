@@ -5,9 +5,12 @@
 body {
   font-size: 14px;
   font-family: 'Open Sans', sans-serif;
-  background: url("../images/bg-pattern.png") repeat #000;
+  background: url("../images/backgrounds/bg-pattern.png") repeat #000;
   min-width: @wrapperWidth;
   color: #3c3c3c;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 a {
@@ -20,6 +23,10 @@ a {
   margin: 0 auto;
   width: @wrapperWidth;
   padding: 0 @wrapperPadding;
+}
+
+.main-content {
+  flex: 1 0 auto;
 }
 
 .wrapper-columns {
