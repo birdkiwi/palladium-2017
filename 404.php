@@ -11,7 +11,7 @@
 <?php include "header.php"; ?>
 
 <main class="main-content">
-    <img src="images/backgrounds/404.jpg" alt="404" style="max-width: 100%;">
+    <img src="images/backgrounds/404.jpg" alt="404" style="max-width: 100%; height: 100%; object-fit: cover;">
 </main>
 
 <?php include "footer.php"; ?>

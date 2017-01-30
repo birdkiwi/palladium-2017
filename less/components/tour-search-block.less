@@ -18,10 +18,6 @@
   padding: 12px 22px;
   font-weight: 600;
 
-  img {
-    margin-right: 10px;
-  }
-
   &:hover {
     background-color: rgba(255, 255, 255, 0.9);
   }
@@ -33,7 +29,32 @@
     &:hover {
       background-color: rgba(0, 0, 0, 0.8);
     }
+
+    .tour-search-block-tabs-item-icon {
+      background-position: 0 -27px;
+    }
   }
+}
+
+.tour-search-block-tabs-item-icon {
+  display: inline-block;
+  width: 27px;
+  height: 27px;
+  margin-right: 10px;
+  background-repeat: no-repeat;
+  background-position: top center;
+}
+
+.tour-search-block-tabs-item-icon-tours {
+  background-image: url("../images/icon-search-tours.png");
+}
+
+.tour-search-block-tabs-item-icon-tickets {
+  background-image: url("../images/icon-search-tickets.png");
+}
+
+.tour-search-block-tabs-item-icon-hotels {
+  background-image: url("../images/icon-search-hotels.png");
 }
 
 .tour-search-block-tabs-item-client {
@@ -59,8 +80,10 @@
   background-color: rgba(0, 0, 0, 0.8);
 
   label {
+    font-size: 13px;
     color: #989898;
     display: block;
+    margin-bottom: 5px;
   }
 
   & > div {
@@ -72,10 +95,32 @@
   }
 }
 
+.tour-search-block-form-control {
+  padding-right: 10px;
+
+  .custom-select {
+    width: 100%;
+    border: none;
+  }
+
+  input[type="text"] {
+    display: block;
+    width: 100%;
+    padding: 0 10px;
+    background: #fff;
+    border: none;
+    height: 40px;
+    line-height: 40px;
+  }
+}
+
 .tour-search-block-form-submit {
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
   background-color: @c-magenta;
   border: none;
-  padding: 7px 15px;
+  padding: 0 15px;
   border-radius: 4px;
 
   &:hover {

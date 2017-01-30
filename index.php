@@ -24,7 +24,7 @@
 
         <div class="wrapper-columns wrapper-columns-equal m-b-md">
             <div class="wrapper-columns-left">
-                <?php include "blocks/specials-block.php"; ?>
+                <?php include "blocks/specials-module.php"; ?>
             </div>
             <div class="wrapper-columns-right">
                 <div class="content-block">

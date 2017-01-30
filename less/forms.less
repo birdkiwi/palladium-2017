@@ -1,0 +1,88 @@
+input {
+  &[type="text"],
+  &[type="email"],
+  &[type="password"],
+  &[type="search"] {
+    background: #fff;
+
+    .placeholder({
+      color: #c1c1c1;
+    });
+
+    &.error {
+      background: lighten(@c-magenta, 40%);
+
+      .placeholder({
+        color: #fff;
+      });
+    }
+  }
+
+  &:invalid {
+    box-shadow: none;
+  }
+}
+
+textarea {
+  background: #fff;
+
+  .placeholder({
+    color: #c1c1c1;
+  });
+
+  &.error {
+    background: lighten(@c-magenta, 40%);
+
+    .placeholder({
+      color: #fff;
+    });
+  }
+}
+
+.custom-select {
+  position: relative;
+  color: #111;
+  border: 1px solid #dadada;
+  height: 40px;
+  line-height: 40px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #fff;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    background: url("../images/icon-select-arrow-down.svg") no-repeat;
+    width: 12px;
+    height: 7px;
+    display: inline-block;
+    margin-top: -3px;
+    color: #4c4c4c;
+  }
+
+  select {
+    position: relative;
+    z-index: 100;
+    border: none;
+    background: transparent;
+    display: block;
+    width: 120%;
+    height: 100%;
+    padding: 0 2px 0 10px;
+    outline: none;
+    color: #383838;
+  }
+
+  option {
+    padding: 3px 5px 3px 10px;
+    color: #444;
+    font-size: 14px;
+  }
+
+  optgroup {
+    text-indent: 10px;
+    font-style: normal;
+  }
+}
