@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<?php include "header.php"; ?>
+<?php include "blocks/header.php"; ?>
 
 <main class="main-content">
     <?php include "blocks/header-search-block.php"; ?>
@@ -130,7 +130,7 @@
     </div>
 </main>
 
-<?php include "footer.php"; ?>
+<?php include "blocks/footer.php"; ?>
 <script src="build/scripts.js"></script>
 </body>
 </html>

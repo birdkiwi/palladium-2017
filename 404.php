@@ -8,13 +8,13 @@
 </head>
 <body>
 
-<?php include "header.php"; ?>
+<?php include "blocks/header.php"; ?>
 
 <main class="main-content">
     <img src="images/backgrounds/404.jpg" alt="404" style="max-width: 100%; height: 100%; object-fit: cover;">
 </main>
 
-<?php include "footer.php"; ?>
+<?php include "blocks/footer.php"; ?>
 <script src="build/scripts.js"></script>
 </body>
 </html>

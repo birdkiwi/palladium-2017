@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="build/style.min.css">
 </head>
 <body>
-
-<?php include "header.php"; ?>
+<?php include "blocks/offcanvas.php"; ?>
+<?php include "blocks/header.php"; ?>
 
 <main class="main-content">
     <?php include "blocks/header-slider.php"; ?>
@@ -65,7 +65,7 @@
 
 <?php include "blocks/logo-module.php"; ?>
 <?php include "blocks/feedback-block.php"; ?>
-<?php include "footer.php"; ?>
+<?php include "blocks/footer.php"; ?>
 <script src="build/scripts.js"></script>
 </body>
 </html>
