@@ -12,20 +12,23 @@
     <nav class="main-offcanvas-nav">
         <ul>
             <li class="main-offcanvas-nav-parent">
+                <span class="main-offcanvas-nav-parent-expand" data-toggle="#offcanvas-menu-1" data-toggle-group="offcanvas-menu"></span>
                 <a href="#">
                     Он-лайн сервисы
                 </a>
             </li>
             <li class="main-offcanvas-nav-parent">
+                <span class="main-offcanvas-nav-parent-expand" data-toggle="#offcanvas-menu-2" data-toggle-group="offcanvas-menu"></span>
                 <a href="#">
                     О компании
                 </a>
             </li>
-            <li class="main-offcanvas-nav-parent active">
+            <li class="main-offcanvas-nav-parent">
+                <span class="main-offcanvas-nav-parent-expand active" data-toggle="#offcanvas-menu-3" data-toggle-group="offcanvas-menu"></span>
                 <a href="#">
                     Агентствам
                 </a>
-                <ul class="main-offcanvas-nav-sub">
+                <ul id="offcanvas-menu-3" class="main-offcanvas-nav-sub active">
                     <li class="main-offcanvas-nav-sub-parent">
                         <a href="#">Сотрудничество</a>
                         <ul class="main-offcanvas-nav-sub-sub">
@@ -66,11 +69,13 @@
                 </ul>
             </li>
             <li class="main-offcanvas-nav-parent">
+                <span class="main-offcanvas-nav-parent-expand" data-toggle="#offcanvas-menu-4" data-toggle-group="offcanvas-menu"></span>
                 <a href="#">
                     Информация
                 </a>
             </li>
             <li class="main-offcanvas-nav-parent">
+                <span class="main-offcanvas-nav-parent-expand" data-toggle="#offcanvas-menu-5" data-toggle-group="offcanvas-menu"></span>
                 <a href="#">
                     Путеводитель
                 </a>

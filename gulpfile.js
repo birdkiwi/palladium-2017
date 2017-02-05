@@ -25,6 +25,8 @@ gulp.task('less', function() {
 var jsFiles = [
         './bower_components/jquery/dist/jquery.js',
         './bower_components/bxslider-4/dist/jquery.bxslider.js',
+        './bower_components/moment/min/moment.min.js',
+        './bower_components/jquery-date-range-picker/dist/jquery.daterangepicker.min.js',
         './js/**/*.js'
     ],
     jsDest = './build';

@@ -11834,6 +11834,565 @@ return jQuery;
 
 })(jQuery);
 
+//! moment.js
+//! version : 2.17.1
+//! authors : Tim Wood, Iskren Chernev, Moment.js contributors
+//! license : MIT
+//! momentjs.com
+!function(a,b){"object"==typeof exports&&"undefined"!=typeof module?module.exports=b():"function"==typeof define&&define.amd?define(b):a.moment=b()}(this,function(){"use strict";function a(){return od.apply(null,arguments)}
+// This is done to register the method called with moment()
+// without creating circular dependencies.
+function b(a){od=a}function c(a){return a instanceof Array||"[object Array]"===Object.prototype.toString.call(a)}function d(a){
+// IE8 will treat undefined and null as object if it wasn't for
+// input != null
+return null!=a&&"[object Object]"===Object.prototype.toString.call(a)}function e(a){var b;for(b in a)
+// even if its not own property I'd still call it non-empty
+return!1;return!0}function f(a){return"number"==typeof a||"[object Number]"===Object.prototype.toString.call(a)}function g(a){return a instanceof Date||"[object Date]"===Object.prototype.toString.call(a)}function h(a,b){var c,d=[];for(c=0;c<a.length;++c)d.push(b(a[c],c));return d}function i(a,b){return Object.prototype.hasOwnProperty.call(a,b)}function j(a,b){for(var c in b)i(b,c)&&(a[c]=b[c]);return i(b,"toString")&&(a.toString=b.toString),i(b,"valueOf")&&(a.valueOf=b.valueOf),a}function k(a,b,c,d){return rb(a,b,c,d,!0).utc()}function l(){
+// We need to deep clone this object.
+return{empty:!1,unusedTokens:[],unusedInput:[],overflow:-2,charsLeftOver:0,nullInput:!1,invalidMonth:null,invalidFormat:!1,userInvalidated:!1,iso:!1,parsedDateParts:[],meridiem:null}}function m(a){return null==a._pf&&(a._pf=l()),a._pf}function n(a){if(null==a._isValid){var b=m(a),c=qd.call(b.parsedDateParts,function(a){return null!=a}),d=!isNaN(a._d.getTime())&&b.overflow<0&&!b.empty&&!b.invalidMonth&&!b.invalidWeekday&&!b.nullInput&&!b.invalidFormat&&!b.userInvalidated&&(!b.meridiem||b.meridiem&&c);if(a._strict&&(d=d&&0===b.charsLeftOver&&0===b.unusedTokens.length&&void 0===b.bigHour),null!=Object.isFrozen&&Object.isFrozen(a))return d;a._isValid=d}return a._isValid}function o(a){var b=k(NaN);return null!=a?j(m(b),a):m(b).userInvalidated=!0,b}function p(a){return void 0===a}function q(a,b){var c,d,e;if(p(b._isAMomentObject)||(a._isAMomentObject=b._isAMomentObject),p(b._i)||(a._i=b._i),p(b._f)||(a._f=b._f),p(b._l)||(a._l=b._l),p(b._strict)||(a._strict=b._strict),p(b._tzm)||(a._tzm=b._tzm),p(b._isUTC)||(a._isUTC=b._isUTC),p(b._offset)||(a._offset=b._offset),p(b._pf)||(a._pf=m(b)),p(b._locale)||(a._locale=b._locale),rd.length>0)for(c in rd)d=rd[c],e=b[d],p(e)||(a[d]=e);return a}
+// Moment prototype object
+function r(b){q(this,b),this._d=new Date(null!=b._d?b._d.getTime():NaN),this.isValid()||(this._d=new Date(NaN)),
+// Prevent infinite loop in case updateOffset creates new moment
+// objects.
+sd===!1&&(sd=!0,a.updateOffset(this),sd=!1)}function s(a){return a instanceof r||null!=a&&null!=a._isAMomentObject}function t(a){return a<0?Math.ceil(a)||0:Math.floor(a)}function u(a){var b=+a,c=0;return 0!==b&&isFinite(b)&&(c=t(b)),c}
+// compare two arrays, return the number of differences
+function v(a,b,c){var d,e=Math.min(a.length,b.length),f=Math.abs(a.length-b.length),g=0;for(d=0;d<e;d++)(c&&a[d]!==b[d]||!c&&u(a[d])!==u(b[d]))&&g++;return g+f}function w(b){a.suppressDeprecationWarnings===!1&&"undefined"!=typeof console&&console.warn&&console.warn("Deprecation warning: "+b)}function x(b,c){var d=!0;return j(function(){if(null!=a.deprecationHandler&&a.deprecationHandler(null,b),d){for(var e,f=[],g=0;g<arguments.length;g++){if(e="","object"==typeof arguments[g]){e+="\n["+g+"] ";for(var h in arguments[0])e+=h+": "+arguments[0][h]+", ";e=e.slice(0,-2)}else e=arguments[g];f.push(e)}w(b+"\nArguments: "+Array.prototype.slice.call(f).join("")+"\n"+(new Error).stack),d=!1}return c.apply(this,arguments)},c)}function y(b,c){null!=a.deprecationHandler&&a.deprecationHandler(b,c),td[b]||(w(c),td[b]=!0)}function z(a){return a instanceof Function||"[object Function]"===Object.prototype.toString.call(a)}function A(a){var b,c;for(c in a)b=a[c],z(b)?this[c]=b:this["_"+c]=b;this._config=a,
+// Lenient ordinal parsing accepts just a number in addition to
+// number + (possibly) stuff coming from _ordinalParseLenient.
+this._ordinalParseLenient=new RegExp(this._ordinalParse.source+"|"+/\d{1,2}/.source)}function B(a,b){var c,e=j({},a);for(c in b)i(b,c)&&(d(a[c])&&d(b[c])?(e[c]={},j(e[c],a[c]),j(e[c],b[c])):null!=b[c]?e[c]=b[c]:delete e[c]);for(c in a)i(a,c)&&!i(b,c)&&d(a[c])&&(
+// make sure changes to properties don't modify parent config
+e[c]=j({},e[c]));return e}function C(a){null!=a&&this.set(a)}function D(a,b,c){var d=this._calendar[a]||this._calendar.sameElse;return z(d)?d.call(b,c):d}function E(a){var b=this._longDateFormat[a],c=this._longDateFormat[a.toUpperCase()];return b||!c?b:(this._longDateFormat[a]=c.replace(/MMMM|MM|DD|dddd/g,function(a){return a.slice(1)}),this._longDateFormat[a])}function F(){return this._invalidDate}function G(a){return this._ordinal.replace("%d",a)}function H(a,b,c,d){var e=this._relativeTime[c];return z(e)?e(a,b,c,d):e.replace(/%d/i,a)}function I(a,b){var c=this._relativeTime[a>0?"future":"past"];return z(c)?c(b):c.replace(/%s/i,b)}function J(a,b){var c=a.toLowerCase();Dd[c]=Dd[c+"s"]=Dd[b]=a}function K(a){return"string"==typeof a?Dd[a]||Dd[a.toLowerCase()]:void 0}function L(a){var b,c,d={};for(c in a)i(a,c)&&(b=K(c),b&&(d[b]=a[c]));return d}function M(a,b){Ed[a]=b}function N(a){var b=[];for(var c in a)b.push({unit:c,priority:Ed[c]});return b.sort(function(a,b){return a.priority-b.priority}),b}function O(b,c){return function(d){return null!=d?(Q(this,b,d),a.updateOffset(this,c),this):P(this,b)}}function P(a,b){return a.isValid()?a._d["get"+(a._isUTC?"UTC":"")+b]():NaN}function Q(a,b,c){a.isValid()&&a._d["set"+(a._isUTC?"UTC":"")+b](c)}
+// MOMENTS
+function R(a){return a=K(a),z(this[a])?this[a]():this}function S(a,b){if("object"==typeof a){a=L(a);for(var c=N(a),d=0;d<c.length;d++)this[c[d].unit](a[c[d].unit])}else if(a=K(a),z(this[a]))return this[a](b);return this}function T(a,b,c){var d=""+Math.abs(a),e=b-d.length,f=a>=0;return(f?c?"+":"":"-")+Math.pow(10,Math.max(0,e)).toString().substr(1)+d}
+// token:    'M'
+// padded:   ['MM', 2]
+// ordinal:  'Mo'
+// callback: function () { this.month() + 1 }
+function U(a,b,c,d){var e=d;"string"==typeof d&&(e=function(){return this[d]()}),a&&(Id[a]=e),b&&(Id[b[0]]=function(){return T(e.apply(this,arguments),b[1],b[2])}),c&&(Id[c]=function(){return this.localeData().ordinal(e.apply(this,arguments),a)})}function V(a){return a.match(/\[[\s\S]/)?a.replace(/^\[|\]$/g,""):a.replace(/\\/g,"")}function W(a){var b,c,d=a.match(Fd);for(b=0,c=d.length;b<c;b++)Id[d[b]]?d[b]=Id[d[b]]:d[b]=V(d[b]);return function(b){var e,f="";for(e=0;e<c;e++)f+=d[e]instanceof Function?d[e].call(b,a):d[e];return f}}
+// format date using native date object
+function X(a,b){return a.isValid()?(b=Y(b,a.localeData()),Hd[b]=Hd[b]||W(b),Hd[b](a)):a.localeData().invalidDate()}function Y(a,b){function c(a){return b.longDateFormat(a)||a}var d=5;for(Gd.lastIndex=0;d>=0&&Gd.test(a);)a=a.replace(Gd,c),Gd.lastIndex=0,d-=1;return a}function Z(a,b,c){$d[a]=z(b)?b:function(a,d){return a&&c?c:b}}function $(a,b){return i($d,a)?$d[a](b._strict,b._locale):new RegExp(_(a))}
+// Code from http://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
+function _(a){return aa(a.replace("\\","").replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g,function(a,b,c,d,e){return b||c||d||e}))}function aa(a){return a.replace(/[-\/\\^$*+?.()|[\]{}]/g,"\\$&")}function ba(a,b){var c,d=b;for("string"==typeof a&&(a=[a]),f(b)&&(d=function(a,c){c[b]=u(a)}),c=0;c<a.length;c++)_d[a[c]]=d}function ca(a,b){ba(a,function(a,c,d,e){d._w=d._w||{},b(a,d._w,d,e)})}function da(a,b,c){null!=b&&i(_d,a)&&_d[a](b,c._a,c,a)}function ea(a,b){return new Date(Date.UTC(a,b+1,0)).getUTCDate()}function fa(a,b){return a?c(this._months)?this._months[a.month()]:this._months[(this._months.isFormat||ke).test(b)?"format":"standalone"][a.month()]:this._months}function ga(a,b){return a?c(this._monthsShort)?this._monthsShort[a.month()]:this._monthsShort[ke.test(b)?"format":"standalone"][a.month()]:this._monthsShort}function ha(a,b,c){var d,e,f,g=a.toLocaleLowerCase();if(!this._monthsParse)for(
+// this is not used
+this._monthsParse=[],this._longMonthsParse=[],this._shortMonthsParse=[],d=0;d<12;++d)f=k([2e3,d]),this._shortMonthsParse[d]=this.monthsShort(f,"").toLocaleLowerCase(),this._longMonthsParse[d]=this.months(f,"").toLocaleLowerCase();return c?"MMM"===b?(e=je.call(this._shortMonthsParse,g),e!==-1?e:null):(e=je.call(this._longMonthsParse,g),e!==-1?e:null):"MMM"===b?(e=je.call(this._shortMonthsParse,g),e!==-1?e:(e=je.call(this._longMonthsParse,g),e!==-1?e:null)):(e=je.call(this._longMonthsParse,g),e!==-1?e:(e=je.call(this._shortMonthsParse,g),e!==-1?e:null))}function ia(a,b,c){var d,e,f;if(this._monthsParseExact)return ha.call(this,a,b,c);
+// TODO: add sorting
+// Sorting makes sure if one month (or abbr) is a prefix of another
+// see sorting in computeMonthsParse
+for(this._monthsParse||(this._monthsParse=[],this._longMonthsParse=[],this._shortMonthsParse=[]),d=0;d<12;d++){
+// test the regex
+if(
+// make the regex if we don't have it already
+e=k([2e3,d]),c&&!this._longMonthsParse[d]&&(this._longMonthsParse[d]=new RegExp("^"+this.months(e,"").replace(".","")+"$","i"),this._shortMonthsParse[d]=new RegExp("^"+this.monthsShort(e,"").replace(".","")+"$","i")),c||this._monthsParse[d]||(f="^"+this.months(e,"")+"|^"+this.monthsShort(e,""),this._monthsParse[d]=new RegExp(f.replace(".",""),"i")),c&&"MMMM"===b&&this._longMonthsParse[d].test(a))return d;if(c&&"MMM"===b&&this._shortMonthsParse[d].test(a))return d;if(!c&&this._monthsParse[d].test(a))return d}}
+// MOMENTS
+function ja(a,b){var c;if(!a.isValid())
+// No op
+return a;if("string"==typeof b)if(/^\d+$/.test(b))b=u(b);else
+// TODO: Another silent failure?
+if(b=a.localeData().monthsParse(b),!f(b))return a;return c=Math.min(a.date(),ea(a.year(),b)),a._d["set"+(a._isUTC?"UTC":"")+"Month"](b,c),a}function ka(b){return null!=b?(ja(this,b),a.updateOffset(this,!0),this):P(this,"Month")}function la(){return ea(this.year(),this.month())}function ma(a){return this._monthsParseExact?(i(this,"_monthsRegex")||oa.call(this),a?this._monthsShortStrictRegex:this._monthsShortRegex):(i(this,"_monthsShortRegex")||(this._monthsShortRegex=ne),this._monthsShortStrictRegex&&a?this._monthsShortStrictRegex:this._monthsShortRegex)}function na(a){return this._monthsParseExact?(i(this,"_monthsRegex")||oa.call(this),a?this._monthsStrictRegex:this._monthsRegex):(i(this,"_monthsRegex")||(this._monthsRegex=oe),this._monthsStrictRegex&&a?this._monthsStrictRegex:this._monthsRegex)}function oa(){function a(a,b){return b.length-a.length}var b,c,d=[],e=[],f=[];for(b=0;b<12;b++)
+// make the regex if we don't have it already
+c=k([2e3,b]),d.push(this.monthsShort(c,"")),e.push(this.months(c,"")),f.push(this.months(c,"")),f.push(this.monthsShort(c,""));for(
+// Sorting makes sure if one month (or abbr) is a prefix of another it
+// will match the longer piece.
+d.sort(a),e.sort(a),f.sort(a),b=0;b<12;b++)d[b]=aa(d[b]),e[b]=aa(e[b]);for(b=0;b<24;b++)f[b]=aa(f[b]);this._monthsRegex=new RegExp("^("+f.join("|")+")","i"),this._monthsShortRegex=this._monthsRegex,this._monthsStrictRegex=new RegExp("^("+e.join("|")+")","i"),this._monthsShortStrictRegex=new RegExp("^("+d.join("|")+")","i")}
+// HELPERS
+function pa(a){return qa(a)?366:365}function qa(a){return a%4===0&&a%100!==0||a%400===0}function ra(){return qa(this.year())}function sa(a,b,c,d,e,f,g){
+//can't just apply() to create a date:
+//http://stackoverflow.com/questions/181348/instantiating-a-javascript-object-by-calling-prototype-constructor-apply
+var h=new Date(a,b,c,d,e,f,g);
+//the date constructor remaps years 0-99 to 1900-1999
+return a<100&&a>=0&&isFinite(h.getFullYear())&&h.setFullYear(a),h}function ta(a){var b=new Date(Date.UTC.apply(null,arguments));
+//the Date.UTC function remaps years 0-99 to 1900-1999
+return a<100&&a>=0&&isFinite(b.getUTCFullYear())&&b.setUTCFullYear(a),b}
+// start-of-first-week - start-of-year
+function ua(a,b,c){var// first-week day -- which january is always in the first week (4 for iso, 1 for other)
+d=7+b-c,
+// first-week day local weekday -- which local weekday is fwd
+e=(7+ta(a,0,d).getUTCDay()-b)%7;return-e+d-1}
+//http://en.wikipedia.org/wiki/ISO_week_date#Calculating_a_date_given_the_year.2C_week_number_and_weekday
+function va(a,b,c,d,e){var f,g,h=(7+c-d)%7,i=ua(a,d,e),j=1+7*(b-1)+h+i;return j<=0?(f=a-1,g=pa(f)+j):j>pa(a)?(f=a+1,g=j-pa(a)):(f=a,g=j),{year:f,dayOfYear:g}}function wa(a,b,c){var d,e,f=ua(a.year(),b,c),g=Math.floor((a.dayOfYear()-f-1)/7)+1;return g<1?(e=a.year()-1,d=g+xa(e,b,c)):g>xa(a.year(),b,c)?(d=g-xa(a.year(),b,c),e=a.year()+1):(e=a.year(),d=g),{week:d,year:e}}function xa(a,b,c){var d=ua(a,b,c),e=ua(a+1,b,c);return(pa(a)-d+e)/7}
+// HELPERS
+// LOCALES
+function ya(a){return wa(a,this._week.dow,this._week.doy).week}function za(){return this._week.dow}function Aa(){return this._week.doy}
+// MOMENTS
+function Ba(a){var b=this.localeData().week(this);return null==a?b:this.add(7*(a-b),"d")}function Ca(a){var b=wa(this,1,4).week;return null==a?b:this.add(7*(a-b),"d")}
+// HELPERS
+function Da(a,b){return"string"!=typeof a?a:isNaN(a)?(a=b.weekdaysParse(a),"number"==typeof a?a:null):parseInt(a,10)}function Ea(a,b){return"string"==typeof a?b.weekdaysParse(a)%7||7:isNaN(a)?null:a}function Fa(a,b){return a?c(this._weekdays)?this._weekdays[a.day()]:this._weekdays[this._weekdays.isFormat.test(b)?"format":"standalone"][a.day()]:this._weekdays}function Ga(a){return a?this._weekdaysShort[a.day()]:this._weekdaysShort}function Ha(a){return a?this._weekdaysMin[a.day()]:this._weekdaysMin}function Ia(a,b,c){var d,e,f,g=a.toLocaleLowerCase();if(!this._weekdaysParse)for(this._weekdaysParse=[],this._shortWeekdaysParse=[],this._minWeekdaysParse=[],d=0;d<7;++d)f=k([2e3,1]).day(d),this._minWeekdaysParse[d]=this.weekdaysMin(f,"").toLocaleLowerCase(),this._shortWeekdaysParse[d]=this.weekdaysShort(f,"").toLocaleLowerCase(),this._weekdaysParse[d]=this.weekdays(f,"").toLocaleLowerCase();return c?"dddd"===b?(e=je.call(this._weekdaysParse,g),e!==-1?e:null):"ddd"===b?(e=je.call(this._shortWeekdaysParse,g),e!==-1?e:null):(e=je.call(this._minWeekdaysParse,g),e!==-1?e:null):"dddd"===b?(e=je.call(this._weekdaysParse,g),e!==-1?e:(e=je.call(this._shortWeekdaysParse,g),e!==-1?e:(e=je.call(this._minWeekdaysParse,g),e!==-1?e:null))):"ddd"===b?(e=je.call(this._shortWeekdaysParse,g),e!==-1?e:(e=je.call(this._weekdaysParse,g),e!==-1?e:(e=je.call(this._minWeekdaysParse,g),e!==-1?e:null))):(e=je.call(this._minWeekdaysParse,g),e!==-1?e:(e=je.call(this._weekdaysParse,g),e!==-1?e:(e=je.call(this._shortWeekdaysParse,g),e!==-1?e:null)))}function Ja(a,b,c){var d,e,f;if(this._weekdaysParseExact)return Ia.call(this,a,b,c);for(this._weekdaysParse||(this._weekdaysParse=[],this._minWeekdaysParse=[],this._shortWeekdaysParse=[],this._fullWeekdaysParse=[]),d=0;d<7;d++){
+// test the regex
+if(
+// make the regex if we don't have it already
+e=k([2e3,1]).day(d),c&&!this._fullWeekdaysParse[d]&&(this._fullWeekdaysParse[d]=new RegExp("^"+this.weekdays(e,"").replace(".",".?")+"$","i"),this._shortWeekdaysParse[d]=new RegExp("^"+this.weekdaysShort(e,"").replace(".",".?")+"$","i"),this._minWeekdaysParse[d]=new RegExp("^"+this.weekdaysMin(e,"").replace(".",".?")+"$","i")),this._weekdaysParse[d]||(f="^"+this.weekdays(e,"")+"|^"+this.weekdaysShort(e,"")+"|^"+this.weekdaysMin(e,""),this._weekdaysParse[d]=new RegExp(f.replace(".",""),"i")),c&&"dddd"===b&&this._fullWeekdaysParse[d].test(a))return d;if(c&&"ddd"===b&&this._shortWeekdaysParse[d].test(a))return d;if(c&&"dd"===b&&this._minWeekdaysParse[d].test(a))return d;if(!c&&this._weekdaysParse[d].test(a))return d}}
+// MOMENTS
+function Ka(a){if(!this.isValid())return null!=a?this:NaN;var b=this._isUTC?this._d.getUTCDay():this._d.getDay();return null!=a?(a=Da(a,this.localeData()),this.add(a-b,"d")):b}function La(a){if(!this.isValid())return null!=a?this:NaN;var b=(this.day()+7-this.localeData()._week.dow)%7;return null==a?b:this.add(a-b,"d")}function Ma(a){if(!this.isValid())return null!=a?this:NaN;
+// behaves the same as moment#day except
+// as a getter, returns 7 instead of 0 (1-7 range instead of 0-6)
+// as a setter, sunday should belong to the previous week.
+if(null!=a){var b=Ea(a,this.localeData());return this.day(this.day()%7?b:b-7)}return this.day()||7}function Na(a){return this._weekdaysParseExact?(i(this,"_weekdaysRegex")||Qa.call(this),a?this._weekdaysStrictRegex:this._weekdaysRegex):(i(this,"_weekdaysRegex")||(this._weekdaysRegex=ue),this._weekdaysStrictRegex&&a?this._weekdaysStrictRegex:this._weekdaysRegex)}function Oa(a){return this._weekdaysParseExact?(i(this,"_weekdaysRegex")||Qa.call(this),a?this._weekdaysShortStrictRegex:this._weekdaysShortRegex):(i(this,"_weekdaysShortRegex")||(this._weekdaysShortRegex=ve),this._weekdaysShortStrictRegex&&a?this._weekdaysShortStrictRegex:this._weekdaysShortRegex)}function Pa(a){return this._weekdaysParseExact?(i(this,"_weekdaysRegex")||Qa.call(this),a?this._weekdaysMinStrictRegex:this._weekdaysMinRegex):(i(this,"_weekdaysMinRegex")||(this._weekdaysMinRegex=we),this._weekdaysMinStrictRegex&&a?this._weekdaysMinStrictRegex:this._weekdaysMinRegex)}function Qa(){function a(a,b){return b.length-a.length}var b,c,d,e,f,g=[],h=[],i=[],j=[];for(b=0;b<7;b++)
+// make the regex if we don't have it already
+c=k([2e3,1]).day(b),d=this.weekdaysMin(c,""),e=this.weekdaysShort(c,""),f=this.weekdays(c,""),g.push(d),h.push(e),i.push(f),j.push(d),j.push(e),j.push(f);for(
+// Sorting makes sure if one weekday (or abbr) is a prefix of another it
+// will match the longer piece.
+g.sort(a),h.sort(a),i.sort(a),j.sort(a),b=0;b<7;b++)h[b]=aa(h[b]),i[b]=aa(i[b]),j[b]=aa(j[b]);this._weekdaysRegex=new RegExp("^("+j.join("|")+")","i"),this._weekdaysShortRegex=this._weekdaysRegex,this._weekdaysMinRegex=this._weekdaysRegex,this._weekdaysStrictRegex=new RegExp("^("+i.join("|")+")","i"),this._weekdaysShortStrictRegex=new RegExp("^("+h.join("|")+")","i"),this._weekdaysMinStrictRegex=new RegExp("^("+g.join("|")+")","i")}
+// FORMATTING
+function Ra(){return this.hours()%12||12}function Sa(){return this.hours()||24}function Ta(a,b){U(a,0,0,function(){return this.localeData().meridiem(this.hours(),this.minutes(),b)})}
+// PARSING
+function Ua(a,b){return b._meridiemParse}
+// LOCALES
+function Va(a){
+// IE8 Quirks Mode & IE7 Standards Mode do not allow accessing strings like arrays
+// Using charAt should be more compatible.
+return"p"===(a+"").toLowerCase().charAt(0)}function Wa(a,b,c){return a>11?c?"pm":"PM":c?"am":"AM"}function Xa(a){return a?a.toLowerCase().replace("_","-"):a}
+// pick the locale from the array
+// try ['en-au', 'en-gb'] as 'en-au', 'en-gb', 'en', as in move through the list trying each
+// substring from most specific to least, but move to the next array item if it's a more specific variant than the current root
+function Ya(a){for(var b,c,d,e,f=0;f<a.length;){for(e=Xa(a[f]).split("-"),b=e.length,c=Xa(a[f+1]),c=c?c.split("-"):null;b>0;){if(d=Za(e.slice(0,b).join("-")))return d;if(c&&c.length>=b&&v(e,c,!0)>=b-1)
+//the next array item is better than a shallower substring of this one
+break;b--}f++}return null}function Za(a){var b=null;
+// TODO: Find a better way to register and load all the locales in Node
+if(!Be[a]&&"undefined"!=typeof module&&module&&module.exports)try{b=xe._abbr,require("./locale/"+a),
+// because defineLocale currently also sets the global locale, we
+// want to undo that for lazy loaded locales
+$a(b)}catch(a){}return Be[a]}
+// This function will load locale and then set the global locale.  If
+// no arguments are passed in, it will simply return the current global
+// locale key.
+function $a(a,b){var c;
+// moment.duration._locale = moment._locale = data;
+return a&&(c=p(b)?bb(a):_a(a,b),c&&(xe=c)),xe._abbr}function _a(a,b){if(null!==b){var c=Ae;if(b.abbr=a,null!=Be[a])y("defineLocaleOverride","use moment.updateLocale(localeName, config) to change an existing locale. moment.defineLocale(localeName, config) should only be used for creating a new locale See http://momentjs.com/guides/#/warnings/define-locale/ for more info."),c=Be[a]._config;else if(null!=b.parentLocale){if(null==Be[b.parentLocale])return Ce[b.parentLocale]||(Ce[b.parentLocale]=[]),Ce[b.parentLocale].push({name:a,config:b}),null;c=Be[b.parentLocale]._config}
+// backwards compat for now: also set the locale
+// make sure we set the locale AFTER all child locales have been
+// created, so we won't end up with the child locale set.
+return Be[a]=new C(B(c,b)),Ce[a]&&Ce[a].forEach(function(a){_a(a.name,a.config)}),$a(a),Be[a]}
+// useful for testing
+return delete Be[a],null}function ab(a,b){if(null!=b){var c,d=Ae;
+// MERGE
+null!=Be[a]&&(d=Be[a]._config),b=B(d,b),c=new C(b),c.parentLocale=Be[a],Be[a]=c,
+// backwards compat for now: also set the locale
+$a(a)}else
+// pass null for config to unupdate, useful for tests
+null!=Be[a]&&(null!=Be[a].parentLocale?Be[a]=Be[a].parentLocale:null!=Be[a]&&delete Be[a]);return Be[a]}
+// returns locale data
+function bb(a){var b;if(a&&a._locale&&a._locale._abbr&&(a=a._locale._abbr),!a)return xe;if(!c(a)){if(
+//short-circuit everything else
+b=Za(a))return b;a=[a]}return Ya(a)}function cb(){return wd(Be)}function db(a){var b,c=a._a;return c&&m(a).overflow===-2&&(b=c[be]<0||c[be]>11?be:c[ce]<1||c[ce]>ea(c[ae],c[be])?ce:c[de]<0||c[de]>24||24===c[de]&&(0!==c[ee]||0!==c[fe]||0!==c[ge])?de:c[ee]<0||c[ee]>59?ee:c[fe]<0||c[fe]>59?fe:c[ge]<0||c[ge]>999?ge:-1,m(a)._overflowDayOfYear&&(b<ae||b>ce)&&(b=ce),m(a)._overflowWeeks&&b===-1&&(b=he),m(a)._overflowWeekday&&b===-1&&(b=ie),m(a).overflow=b),a}
+// date from iso format
+function eb(a){var b,c,d,e,f,g,h=a._i,i=De.exec(h)||Ee.exec(h);if(i){for(m(a).iso=!0,b=0,c=Ge.length;b<c;b++)if(Ge[b][1].exec(i[1])){e=Ge[b][0],d=Ge[b][2]!==!1;break}if(null==e)return void(a._isValid=!1);if(i[3]){for(b=0,c=He.length;b<c;b++)if(He[b][1].exec(i[3])){
+// match[2] should be 'T' or space
+f=(i[2]||" ")+He[b][0];break}if(null==f)return void(a._isValid=!1)}if(!d&&null!=f)return void(a._isValid=!1);if(i[4]){if(!Fe.exec(i[4]))return void(a._isValid=!1);g="Z"}a._f=e+(f||"")+(g||""),kb(a)}else a._isValid=!1}
+// date from iso format or fallback
+function fb(b){var c=Ie.exec(b._i);return null!==c?void(b._d=new Date(+c[1])):(eb(b),void(b._isValid===!1&&(delete b._isValid,a.createFromInputFallback(b))))}
+// Pick the first defined of two or three arguments.
+function gb(a,b,c){return null!=a?a:null!=b?b:c}function hb(b){
+// hooks is actually the exported moment object
+var c=new Date(a.now());return b._useUTC?[c.getUTCFullYear(),c.getUTCMonth(),c.getUTCDate()]:[c.getFullYear(),c.getMonth(),c.getDate()]}
+// convert an array to a date.
+// the array should mirror the parameters below
+// note: all values past the year are optional and will default to the lowest possible value.
+// [year, month, day , hour, minute, second, millisecond]
+function ib(a){var b,c,d,e,f=[];if(!a._d){
+// Default to current date.
+// * if no year, month, day of month are given, default to today
+// * if day of month is given, default month and year
+// * if month is given, default only year
+// * if year is given, don't default anything
+for(d=hb(a),
+//compute day of the year from weeks and weekdays
+a._w&&null==a._a[ce]&&null==a._a[be]&&jb(a),
+//if the day of the year is set, figure out what it is
+a._dayOfYear&&(e=gb(a._a[ae],d[ae]),a._dayOfYear>pa(e)&&(m(a)._overflowDayOfYear=!0),c=ta(e,0,a._dayOfYear),a._a[be]=c.getUTCMonth(),a._a[ce]=c.getUTCDate()),b=0;b<3&&null==a._a[b];++b)a._a[b]=f[b]=d[b];
+// Zero out whatever was not defaulted, including time
+for(;b<7;b++)a._a[b]=f[b]=null==a._a[b]?2===b?1:0:a._a[b];
+// Check for 24:00:00.000
+24===a._a[de]&&0===a._a[ee]&&0===a._a[fe]&&0===a._a[ge]&&(a._nextDay=!0,a._a[de]=0),a._d=(a._useUTC?ta:sa).apply(null,f),
+// Apply timezone offset from input. The actual utcOffset can be changed
+// with parseZone.
+null!=a._tzm&&a._d.setUTCMinutes(a._d.getUTCMinutes()-a._tzm),a._nextDay&&(a._a[de]=24)}}function jb(a){var b,c,d,e,f,g,h,i;if(b=a._w,null!=b.GG||null!=b.W||null!=b.E)f=1,g=4,
+// TODO: We need to take the current isoWeekYear, but that depends on
+// how we interpret now (local, utc, fixed offset). So create
+// a now version of current config (take local/utc/offset flags, and
+// create now).
+c=gb(b.GG,a._a[ae],wa(sb(),1,4).year),d=gb(b.W,1),e=gb(b.E,1),(e<1||e>7)&&(i=!0);else{f=a._locale._week.dow,g=a._locale._week.doy;var j=wa(sb(),f,g);c=gb(b.gg,a._a[ae],j.year),
+// Default to current week.
+d=gb(b.w,j.week),null!=b.d?(
+// weekday -- low day numbers are considered next week
+e=b.d,(e<0||e>6)&&(i=!0)):null!=b.e?(
+// local weekday -- counting starts from begining of week
+e=b.e+f,(b.e<0||b.e>6)&&(i=!0)):
+// default to begining of week
+e=f}d<1||d>xa(c,f,g)?m(a)._overflowWeeks=!0:null!=i?m(a)._overflowWeekday=!0:(h=va(c,d,e,f,g),a._a[ae]=h.year,a._dayOfYear=h.dayOfYear)}
+// date from string and format string
+function kb(b){
+// TODO: Move this to another part of the creation flow to prevent circular deps
+if(b._f===a.ISO_8601)return void eb(b);b._a=[],m(b).empty=!0;
+// This array is used to make a Date, either with `new Date` or `Date.UTC`
+var c,d,e,f,g,h=""+b._i,i=h.length,j=0;for(e=Y(b._f,b._locale).match(Fd)||[],c=0;c<e.length;c++)f=e[c],d=(h.match($(f,b))||[])[0],
+// console.log('token', token, 'parsedInput', parsedInput,
+//         'regex', getParseRegexForToken(token, config));
+d&&(g=h.substr(0,h.indexOf(d)),g.length>0&&m(b).unusedInput.push(g),h=h.slice(h.indexOf(d)+d.length),j+=d.length),
+// don't parse if it's not a known token
+Id[f]?(d?m(b).empty=!1:m(b).unusedTokens.push(f),da(f,d,b)):b._strict&&!d&&m(b).unusedTokens.push(f);
+// add remaining unparsed input length to the string
+m(b).charsLeftOver=i-j,h.length>0&&m(b).unusedInput.push(h),
+// clear _12h flag if hour is <= 12
+b._a[de]<=12&&m(b).bigHour===!0&&b._a[de]>0&&(m(b).bigHour=void 0),m(b).parsedDateParts=b._a.slice(0),m(b).meridiem=b._meridiem,
+// handle meridiem
+b._a[de]=lb(b._locale,b._a[de],b._meridiem),ib(b),db(b)}function lb(a,b,c){var d;
+// Fallback
+return null==c?b:null!=a.meridiemHour?a.meridiemHour(b,c):null!=a.isPM?(d=a.isPM(c),d&&b<12&&(b+=12),d||12!==b||(b=0),b):b}
+// date from string and array of format strings
+function mb(a){var b,c,d,e,f;if(0===a._f.length)return m(a).invalidFormat=!0,void(a._d=new Date(NaN));for(e=0;e<a._f.length;e++)f=0,b=q({},a),null!=a._useUTC&&(b._useUTC=a._useUTC),b._f=a._f[e],kb(b),n(b)&&(
+// if there is any input that was not parsed add a penalty for that format
+f+=m(b).charsLeftOver,
+//or tokens
+f+=10*m(b).unusedTokens.length,m(b).score=f,(null==d||f<d)&&(d=f,c=b));j(a,c||b)}function nb(a){if(!a._d){var b=L(a._i);a._a=h([b.year,b.month,b.day||b.date,b.hour,b.minute,b.second,b.millisecond],function(a){return a&&parseInt(a,10)}),ib(a)}}function ob(a){var b=new r(db(pb(a)));
+// Adding is smart enough around DST
+return b._nextDay&&(b.add(1,"d"),b._nextDay=void 0),b}function pb(a){var b=a._i,d=a._f;return a._locale=a._locale||bb(a._l),null===b||void 0===d&&""===b?o({nullInput:!0}):("string"==typeof b&&(a._i=b=a._locale.preparse(b)),s(b)?new r(db(b)):(g(b)?a._d=b:c(d)?mb(a):d?kb(a):qb(a),n(a)||(a._d=null),a))}function qb(b){var d=b._i;void 0===d?b._d=new Date(a.now()):g(d)?b._d=new Date(d.valueOf()):"string"==typeof d?fb(b):c(d)?(b._a=h(d.slice(0),function(a){return parseInt(a,10)}),ib(b)):"object"==typeof d?nb(b):f(d)?
+// from milliseconds
+b._d=new Date(d):a.createFromInputFallback(b)}function rb(a,b,f,g,h){var i={};
+// object construction must be done this way.
+// https://github.com/moment/moment/issues/1423
+return f!==!0&&f!==!1||(g=f,f=void 0),(d(a)&&e(a)||c(a)&&0===a.length)&&(a=void 0),i._isAMomentObject=!0,i._useUTC=i._isUTC=h,i._l=f,i._i=a,i._f=b,i._strict=g,ob(i)}function sb(a,b,c,d){return rb(a,b,c,d,!1)}
+// Pick a moment m from moments so that m[fn](other) is true for all
+// other. This relies on the function fn to be transitive.
+//
+// moments should either be an array of moment objects or an array, whose
+// first element is an array of moment objects.
+function tb(a,b){var d,e;if(1===b.length&&c(b[0])&&(b=b[0]),!b.length)return sb();for(d=b[0],e=1;e<b.length;++e)b[e].isValid()&&!b[e][a](d)||(d=b[e]);return d}
+// TODO: Use [].sort instead?
+function ub(){var a=[].slice.call(arguments,0);return tb("isBefore",a)}function vb(){var a=[].slice.call(arguments,0);return tb("isAfter",a)}function wb(a){var b=L(a),c=b.year||0,d=b.quarter||0,e=b.month||0,f=b.week||0,g=b.day||0,h=b.hour||0,i=b.minute||0,j=b.second||0,k=b.millisecond||0;
+// representation for dateAddRemove
+this._milliseconds=+k+1e3*j+// 1000
+6e4*i+// 1000 * 60
+1e3*h*60*60,//using 1000 * 60 * 60 instead of 36e5 to avoid floating point rounding errors https://github.com/moment/moment/issues/2978
+// Because of dateAddRemove treats 24 hours as different from a
+// day when working around DST, we need to store them separately
+this._days=+g+7*f,
+// It is impossible translate months into days without knowing
+// which months you are are talking about, so we have to store
+// it separately.
+this._months=+e+3*d+12*c,this._data={},this._locale=bb(),this._bubble()}function xb(a){return a instanceof wb}function yb(a){return a<0?Math.round(-1*a)*-1:Math.round(a)}
+// FORMATTING
+function zb(a,b){U(a,0,0,function(){var a=this.utcOffset(),c="+";return a<0&&(a=-a,c="-"),c+T(~~(a/60),2)+b+T(~~a%60,2)})}function Ab(a,b){var c=(b||"").match(a);if(null===c)return null;var d=c[c.length-1]||[],e=(d+"").match(Me)||["-",0,0],f=+(60*e[1])+u(e[2]);return 0===f?0:"+"===e[0]?f:-f}
+// Return a moment from input, that is local/utc/zone equivalent to model.
+function Bb(b,c){var d,e;
+// Use low-level api, because this fn is low-level api.
+return c._isUTC?(d=c.clone(),e=(s(b)||g(b)?b.valueOf():sb(b).valueOf())-d.valueOf(),d._d.setTime(d._d.valueOf()+e),a.updateOffset(d,!1),d):sb(b).local()}function Cb(a){
+// On Firefox.24 Date#getTimezoneOffset returns a floating point.
+// https://github.com/moment/moment/pull/1871
+return 15*-Math.round(a._d.getTimezoneOffset()/15)}
+// MOMENTS
+// keepLocalTime = true means only change the timezone, without
+// affecting the local hour. So 5:31:26 +0300 --[utcOffset(2, true)]-->
+// 5:31:26 +0200 It is possible that 5:31:26 doesn't exist with offset
+// +0200, so we adjust the time as needed, to be valid.
+//
+// Keeping the time actually adds/subtracts (one hour)
+// from the actual represented time. That is why we call updateOffset
+// a second time. In case it wants us to change the offset again
+// _changeInProgress == true case, then we have to adjust, because
+// there is no such time in the given timezone.
+function Db(b,c){var d,e=this._offset||0;if(!this.isValid())return null!=b?this:NaN;if(null!=b){if("string"==typeof b){if(b=Ab(Xd,b),null===b)return this}else Math.abs(b)<16&&(b=60*b);return!this._isUTC&&c&&(d=Cb(this)),this._offset=b,this._isUTC=!0,null!=d&&this.add(d,"m"),e!==b&&(!c||this._changeInProgress?Tb(this,Ob(b-e,"m"),1,!1):this._changeInProgress||(this._changeInProgress=!0,a.updateOffset(this,!0),this._changeInProgress=null)),this}return this._isUTC?e:Cb(this)}function Eb(a,b){return null!=a?("string"!=typeof a&&(a=-a),this.utcOffset(a,b),this):-this.utcOffset()}function Fb(a){return this.utcOffset(0,a)}function Gb(a){return this._isUTC&&(this.utcOffset(0,a),this._isUTC=!1,a&&this.subtract(Cb(this),"m")),this}function Hb(){if(null!=this._tzm)this.utcOffset(this._tzm);else if("string"==typeof this._i){var a=Ab(Wd,this._i);null!=a?this.utcOffset(a):this.utcOffset(0,!0)}return this}function Ib(a){return!!this.isValid()&&(a=a?sb(a).utcOffset():0,(this.utcOffset()-a)%60===0)}function Jb(){return this.utcOffset()>this.clone().month(0).utcOffset()||this.utcOffset()>this.clone().month(5).utcOffset()}function Kb(){if(!p(this._isDSTShifted))return this._isDSTShifted;var a={};if(q(a,this),a=pb(a),a._a){var b=a._isUTC?k(a._a):sb(a._a);this._isDSTShifted=this.isValid()&&v(a._a,b.toArray())>0}else this._isDSTShifted=!1;return this._isDSTShifted}function Lb(){return!!this.isValid()&&!this._isUTC}function Mb(){return!!this.isValid()&&this._isUTC}function Nb(){return!!this.isValid()&&(this._isUTC&&0===this._offset)}function Ob(a,b){var c,d,e,g=a,
+// matching against regexp is expensive, do it on demand
+h=null;// checks for null or undefined
+return xb(a)?g={ms:a._milliseconds,d:a._days,M:a._months}:f(a)?(g={},b?g[b]=a:g.milliseconds=a):(h=Ne.exec(a))?(c="-"===h[1]?-1:1,g={y:0,d:u(h[ce])*c,h:u(h[de])*c,m:u(h[ee])*c,s:u(h[fe])*c,ms:u(yb(1e3*h[ge]))*c}):(h=Oe.exec(a))?(c="-"===h[1]?-1:1,g={y:Pb(h[2],c),M:Pb(h[3],c),w:Pb(h[4],c),d:Pb(h[5],c),h:Pb(h[6],c),m:Pb(h[7],c),s:Pb(h[8],c)}):null==g?g={}:"object"==typeof g&&("from"in g||"to"in g)&&(e=Rb(sb(g.from),sb(g.to)),g={},g.ms=e.milliseconds,g.M=e.months),d=new wb(g),xb(a)&&i(a,"_locale")&&(d._locale=a._locale),d}function Pb(a,b){
+// We'd normally use ~~inp for this, but unfortunately it also
+// converts floats to ints.
+// inp may be undefined, so careful calling replace on it.
+var c=a&&parseFloat(a.replace(",","."));
+// apply sign while we're at it
+return(isNaN(c)?0:c)*b}function Qb(a,b){var c={milliseconds:0,months:0};return c.months=b.month()-a.month()+12*(b.year()-a.year()),a.clone().add(c.months,"M").isAfter(b)&&--c.months,c.milliseconds=+b-+a.clone().add(c.months,"M"),c}function Rb(a,b){var c;return a.isValid()&&b.isValid()?(b=Bb(b,a),a.isBefore(b)?c=Qb(a,b):(c=Qb(b,a),c.milliseconds=-c.milliseconds,c.months=-c.months),c):{milliseconds:0,months:0}}
+// TODO: remove 'name' arg after deprecation is removed
+function Sb(a,b){return function(c,d){var e,f;
+//invert the arguments, but complain about it
+return null===d||isNaN(+d)||(y(b,"moment()."+b+"(period, number) is deprecated. Please use moment()."+b+"(number, period). See http://momentjs.com/guides/#/warnings/add-inverted-param/ for more info."),f=c,c=d,d=f),c="string"==typeof c?+c:c,e=Ob(c,d),Tb(this,e,a),this}}function Tb(b,c,d,e){var f=c._milliseconds,g=yb(c._days),h=yb(c._months);b.isValid()&&(e=null==e||e,f&&b._d.setTime(b._d.valueOf()+f*d),g&&Q(b,"Date",P(b,"Date")+g*d),h&&ja(b,P(b,"Month")+h*d),e&&a.updateOffset(b,g||h))}function Ub(a,b){var c=a.diff(b,"days",!0);return c<-6?"sameElse":c<-1?"lastWeek":c<0?"lastDay":c<1?"sameDay":c<2?"nextDay":c<7?"nextWeek":"sameElse"}function Vb(b,c){
+// We want to compare the start of today, vs this.
+// Getting start-of-today depends on whether we're local/utc/offset or not.
+var d=b||sb(),e=Bb(d,this).startOf("day"),f=a.calendarFormat(this,e)||"sameElse",g=c&&(z(c[f])?c[f].call(this,d):c[f]);return this.format(g||this.localeData().calendar(f,this,sb(d)))}function Wb(){return new r(this)}function Xb(a,b){var c=s(a)?a:sb(a);return!(!this.isValid()||!c.isValid())&&(b=K(p(b)?"millisecond":b),"millisecond"===b?this.valueOf()>c.valueOf():c.valueOf()<this.clone().startOf(b).valueOf())}function Yb(a,b){var c=s(a)?a:sb(a);return!(!this.isValid()||!c.isValid())&&(b=K(p(b)?"millisecond":b),"millisecond"===b?this.valueOf()<c.valueOf():this.clone().endOf(b).valueOf()<c.valueOf())}function Zb(a,b,c,d){return d=d||"()",("("===d[0]?this.isAfter(a,c):!this.isBefore(a,c))&&(")"===d[1]?this.isBefore(b,c):!this.isAfter(b,c))}function $b(a,b){var c,d=s(a)?a:sb(a);return!(!this.isValid()||!d.isValid())&&(b=K(b||"millisecond"),"millisecond"===b?this.valueOf()===d.valueOf():(c=d.valueOf(),this.clone().startOf(b).valueOf()<=c&&c<=this.clone().endOf(b).valueOf()))}function _b(a,b){return this.isSame(a,b)||this.isAfter(a,b)}function ac(a,b){return this.isSame(a,b)||this.isBefore(a,b)}function bc(a,b,c){var d,e,f,g;// 1000
+// 1000 * 60
+// 1000 * 60 * 60
+// 1000 * 60 * 60 * 24, negate dst
+// 1000 * 60 * 60 * 24 * 7, negate dst
+return this.isValid()?(d=Bb(a,this),d.isValid()?(e=6e4*(d.utcOffset()-this.utcOffset()),b=K(b),"year"===b||"month"===b||"quarter"===b?(g=cc(this,d),"quarter"===b?g/=3:"year"===b&&(g/=12)):(f=this-d,g="second"===b?f/1e3:"minute"===b?f/6e4:"hour"===b?f/36e5:"day"===b?(f-e)/864e5:"week"===b?(f-e)/6048e5:f),c?g:t(g)):NaN):NaN}function cc(a,b){
+// difference in months
+var c,d,e=12*(b.year()-a.year())+(b.month()-a.month()),
+// b is in (anchor - 1 month, anchor + 1 month)
+f=a.clone().add(e,"months");
+//check for negative zero, return zero if negative zero
+// linear across the month
+// linear across the month
+return b-f<0?(c=a.clone().add(e-1,"months"),d=(b-f)/(f-c)):(c=a.clone().add(e+1,"months"),d=(b-f)/(c-f)),-(e+d)||0}function dc(){return this.clone().locale("en").format("ddd MMM DD YYYY HH:mm:ss [GMT]ZZ")}function ec(){var a=this.clone().utc();return 0<a.year()&&a.year()<=9999?z(Date.prototype.toISOString)?this.toDate().toISOString():X(a,"YYYY-MM-DD[T]HH:mm:ss.SSS[Z]"):X(a,"YYYYYY-MM-DD[T]HH:mm:ss.SSS[Z]")}/**
+ * Return a human readable representation of a moment that can
+ * also be evaluated to get a new moment which is the same
+ *
+ * @link https://nodejs.org/dist/latest/docs/api/util.html#util_custom_inspect_function_on_objects
+ */
+function fc(){if(!this.isValid())return"moment.invalid(/* "+this._i+" */)";var a="moment",b="";this.isLocal()||(a=0===this.utcOffset()?"moment.utc":"moment.parseZone",b="Z");var c="["+a+'("]',d=0<this.year()&&this.year()<=9999?"YYYY":"YYYYYY",e="-MM-DD[T]HH:mm:ss.SSS",f=b+'[")]';return this.format(c+d+e+f)}function gc(b){b||(b=this.isUtc()?a.defaultFormatUtc:a.defaultFormat);var c=X(this,b);return this.localeData().postformat(c)}function hc(a,b){return this.isValid()&&(s(a)&&a.isValid()||sb(a).isValid())?Ob({to:this,from:a}).locale(this.locale()).humanize(!b):this.localeData().invalidDate()}function ic(a){return this.from(sb(),a)}function jc(a,b){return this.isValid()&&(s(a)&&a.isValid()||sb(a).isValid())?Ob({from:this,to:a}).locale(this.locale()).humanize(!b):this.localeData().invalidDate()}function kc(a){return this.to(sb(),a)}
+// If passed a locale key, it will set the locale for this
+// instance.  Otherwise, it will return the locale configuration
+// variables for this instance.
+function lc(a){var b;return void 0===a?this._locale._abbr:(b=bb(a),null!=b&&(this._locale=b),this)}function mc(){return this._locale}function nc(a){
+// the following switch intentionally omits break keywords
+// to utilize falling through the cases.
+switch(a=K(a)){case"year":this.month(0);/* falls through */
+case"quarter":case"month":this.date(1);/* falls through */
+case"week":case"isoWeek":case"day":case"date":this.hours(0);/* falls through */
+case"hour":this.minutes(0);/* falls through */
+case"minute":this.seconds(0);/* falls through */
+case"second":this.milliseconds(0)}
+// weeks are a special case
+// quarters are also special
+return"week"===a&&this.weekday(0),"isoWeek"===a&&this.isoWeekday(1),"quarter"===a&&this.month(3*Math.floor(this.month()/3)),this}function oc(a){
+// 'date' is an alias for 'day', so it should be considered as such.
+return a=K(a),void 0===a||"millisecond"===a?this:("date"===a&&(a="day"),this.startOf(a).add(1,"isoWeek"===a?"week":a).subtract(1,"ms"))}function pc(){return this._d.valueOf()-6e4*(this._offset||0)}function qc(){return Math.floor(this.valueOf()/1e3)}function rc(){return new Date(this.valueOf())}function sc(){var a=this;return[a.year(),a.month(),a.date(),a.hour(),a.minute(),a.second(),a.millisecond()]}function tc(){var a=this;return{years:a.year(),months:a.month(),date:a.date(),hours:a.hours(),minutes:a.minutes(),seconds:a.seconds(),milliseconds:a.milliseconds()}}function uc(){
+// new Date(NaN).toJSON() === null
+return this.isValid()?this.toISOString():null}function vc(){return n(this)}function wc(){return j({},m(this))}function xc(){return m(this).overflow}function yc(){return{input:this._i,format:this._f,locale:this._locale,isUTC:this._isUTC,strict:this._strict}}function zc(a,b){U(0,[a,a.length],0,b)}
+// MOMENTS
+function Ac(a){return Ec.call(this,a,this.week(),this.weekday(),this.localeData()._week.dow,this.localeData()._week.doy)}function Bc(a){return Ec.call(this,a,this.isoWeek(),this.isoWeekday(),1,4)}function Cc(){return xa(this.year(),1,4)}function Dc(){var a=this.localeData()._week;return xa(this.year(),a.dow,a.doy)}function Ec(a,b,c,d,e){var f;return null==a?wa(this,d,e).year:(f=xa(a,d,e),b>f&&(b=f),Fc.call(this,a,b,c,d,e))}function Fc(a,b,c,d,e){var f=va(a,b,c,d,e),g=ta(f.year,0,f.dayOfYear);return this.year(g.getUTCFullYear()),this.month(g.getUTCMonth()),this.date(g.getUTCDate()),this}
+// MOMENTS
+function Gc(a){return null==a?Math.ceil((this.month()+1)/3):this.month(3*(a-1)+this.month()%3)}
+// HELPERS
+// MOMENTS
+function Hc(a){var b=Math.round((this.clone().startOf("day")-this.clone().startOf("year"))/864e5)+1;return null==a?b:this.add(a-b,"d")}function Ic(a,b){b[ge]=u(1e3*("0."+a))}
+// MOMENTS
+function Jc(){return this._isUTC?"UTC":""}function Kc(){return this._isUTC?"Coordinated Universal Time":""}function Lc(a){return sb(1e3*a)}function Mc(){return sb.apply(null,arguments).parseZone()}function Nc(a){return a}function Oc(a,b,c,d){var e=bb(),f=k().set(d,b);return e[c](f,a)}function Pc(a,b,c){if(f(a)&&(b=a,a=void 0),a=a||"",null!=b)return Oc(a,b,c,"month");var d,e=[];for(d=0;d<12;d++)e[d]=Oc(a,d,c,"month");return e}
+// ()
+// (5)
+// (fmt, 5)
+// (fmt)
+// (true)
+// (true, 5)
+// (true, fmt, 5)
+// (true, fmt)
+function Qc(a,b,c,d){"boolean"==typeof a?(f(b)&&(c=b,b=void 0),b=b||""):(b=a,c=b,a=!1,f(b)&&(c=b,b=void 0),b=b||"");var e=bb(),g=a?e._week.dow:0;if(null!=c)return Oc(b,(c+g)%7,d,"day");var h,i=[];for(h=0;h<7;h++)i[h]=Oc(b,(h+g)%7,d,"day");return i}function Rc(a,b){return Pc(a,b,"months")}function Sc(a,b){return Pc(a,b,"monthsShort")}function Tc(a,b,c){return Qc(a,b,c,"weekdays")}function Uc(a,b,c){return Qc(a,b,c,"weekdaysShort")}function Vc(a,b,c){return Qc(a,b,c,"weekdaysMin")}function Wc(){var a=this._data;return this._milliseconds=Ze(this._milliseconds),this._days=Ze(this._days),this._months=Ze(this._months),a.milliseconds=Ze(a.milliseconds),a.seconds=Ze(a.seconds),a.minutes=Ze(a.minutes),a.hours=Ze(a.hours),a.months=Ze(a.months),a.years=Ze(a.years),this}function Xc(a,b,c,d){var e=Ob(b,c);return a._milliseconds+=d*e._milliseconds,a._days+=d*e._days,a._months+=d*e._months,a._bubble()}
+// supports only 2.0-style add(1, 's') or add(duration)
+function Yc(a,b){return Xc(this,a,b,1)}
+// supports only 2.0-style subtract(1, 's') or subtract(duration)
+function Zc(a,b){return Xc(this,a,b,-1)}function $c(a){return a<0?Math.floor(a):Math.ceil(a)}function _c(){var a,b,c,d,e,f=this._milliseconds,g=this._days,h=this._months,i=this._data;
+// if we have a mix of positive and negative values, bubble down first
+// check: https://github.com/moment/moment/issues/2166
+// The following code bubbles up values, see the tests for
+// examples of what that means.
+// convert days to months
+// 12 months -> 1 year
+return f>=0&&g>=0&&h>=0||f<=0&&g<=0&&h<=0||(f+=864e5*$c(bd(h)+g),g=0,h=0),i.milliseconds=f%1e3,a=t(f/1e3),i.seconds=a%60,b=t(a/60),i.minutes=b%60,c=t(b/60),i.hours=c%24,g+=t(c/24),e=t(ad(g)),h+=e,g-=$c(bd(e)),d=t(h/12),h%=12,i.days=g,i.months=h,i.years=d,this}function ad(a){
+// 400 years have 146097 days (taking into account leap year rules)
+// 400 years have 12 months === 4800
+return 4800*a/146097}function bd(a){
+// the reverse of daysToMonths
+return 146097*a/4800}function cd(a){var b,c,d=this._milliseconds;if(a=K(a),"month"===a||"year"===a)return b=this._days+d/864e5,c=this._months+ad(b),"month"===a?c:c/12;switch(
+// handle milliseconds separately because of floating point math errors (issue #1867)
+b=this._days+Math.round(bd(this._months)),a){case"week":return b/7+d/6048e5;case"day":return b+d/864e5;case"hour":return 24*b+d/36e5;case"minute":return 1440*b+d/6e4;case"second":return 86400*b+d/1e3;
+// Math.floor prevents floating point math errors here
+case"millisecond":return Math.floor(864e5*b)+d;default:throw new Error("Unknown unit "+a)}}
+// TODO: Use this.as('ms')?
+function dd(){return this._milliseconds+864e5*this._days+this._months%12*2592e6+31536e6*u(this._months/12)}function ed(a){return function(){return this.as(a)}}function fd(a){return a=K(a),this[a+"s"]()}function gd(a){return function(){return this._data[a]}}function hd(){return t(this.days()/7)}
+// helper function for moment.fn.from, moment.fn.fromNow, and moment.duration.fn.humanize
+function id(a,b,c,d,e){return e.relativeTime(b||1,!!c,a,d)}function jd(a,b,c){var d=Ob(a).abs(),e=of(d.as("s")),f=of(d.as("m")),g=of(d.as("h")),h=of(d.as("d")),i=of(d.as("M")),j=of(d.as("y")),k=e<pf.s&&["s",e]||f<=1&&["m"]||f<pf.m&&["mm",f]||g<=1&&["h"]||g<pf.h&&["hh",g]||h<=1&&["d"]||h<pf.d&&["dd",h]||i<=1&&["M"]||i<pf.M&&["MM",i]||j<=1&&["y"]||["yy",j];return k[2]=b,k[3]=+a>0,k[4]=c,id.apply(null,k)}
+// This function allows you to set the rounding function for relative time strings
+function kd(a){return void 0===a?of:"function"==typeof a&&(of=a,!0)}
+// This function allows you to set a threshold for relative time strings
+function ld(a,b){return void 0!==pf[a]&&(void 0===b?pf[a]:(pf[a]=b,!0))}function md(a){var b=this.localeData(),c=jd(this,!a,b);return a&&(c=b.pastFuture(+this,c)),b.postformat(c)}function nd(){
+// for ISO strings we do not use the normal bubbling rules:
+//  * milliseconds bubble up until they become hours
+//  * days do not bubble at all
+//  * months bubble up until they become years
+// This is because there is no context-free conversion between hours and days
+// (think of clock changes)
+// and also not between days and months (28-31 days per month)
+var a,b,c,d=qf(this._milliseconds)/1e3,e=qf(this._days),f=qf(this._months);
+// 3600 seconds -> 60 minutes -> 1 hour
+a=t(d/60),b=t(a/60),d%=60,a%=60,
+// 12 months -> 1 year
+c=t(f/12),f%=12;
+// inspired by https://github.com/dordille/moment-isoduration/blob/master/moment.isoduration.js
+var g=c,h=f,i=e,j=b,k=a,l=d,m=this.asSeconds();return m?(m<0?"-":"")+"P"+(g?g+"Y":"")+(h?h+"M":"")+(i?i+"D":"")+(j||k||l?"T":"")+(j?j+"H":"")+(k?k+"M":"")+(l?l+"S":""):"P0D"}var od,pd;pd=Array.prototype.some?Array.prototype.some:function(a){for(var b=Object(this),c=b.length>>>0,d=0;d<c;d++)if(d in b&&a.call(this,b[d],d,b))return!0;return!1};var qd=pd,rd=a.momentProperties=[],sd=!1,td={};a.suppressDeprecationWarnings=!1,a.deprecationHandler=null;var ud;ud=Object.keys?Object.keys:function(a){var b,c=[];for(b in a)i(a,b)&&c.push(b);return c};var vd,wd=ud,xd={sameDay:"[Today at] LT",nextDay:"[Tomorrow at] LT",nextWeek:"dddd [at] LT",lastDay:"[Yesterday at] LT",lastWeek:"[Last] dddd [at] LT",sameElse:"L"},yd={LTS:"h:mm:ss A",LT:"h:mm A",L:"MM/DD/YYYY",LL:"MMMM D, YYYY",LLL:"MMMM D, YYYY h:mm A",LLLL:"dddd, MMMM D, YYYY h:mm A"},zd="Invalid date",Ad="%d",Bd=/\d{1,2}/,Cd={future:"in %s",past:"%s ago",s:"a few seconds",m:"a minute",mm:"%d minutes",h:"an hour",hh:"%d hours",d:"a day",dd:"%d days",M:"a month",MM:"%d months",y:"a year",yy:"%d years"},Dd={},Ed={},Fd=/(\[[^\[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|YYYYYY|YYYYY|YYYY|YY|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|.)/g,Gd=/(\[[^\[]*\])|(\\)?(LTS|LT|LL?L?L?|l{1,4})/g,Hd={},Id={},Jd=/\d/,Kd=/\d\d/,Ld=/\d{3}/,Md=/\d{4}/,Nd=/[+-]?\d{6}/,Od=/\d\d?/,Pd=/\d\d\d\d?/,Qd=/\d\d\d\d\d\d?/,Rd=/\d{1,3}/,Sd=/\d{1,4}/,Td=/[+-]?\d{1,6}/,Ud=/\d+/,Vd=/[+-]?\d+/,Wd=/Z|[+-]\d\d:?\d\d/gi,Xd=/Z|[+-]\d\d(?::?\d\d)?/gi,Yd=/[+-]?\d+(\.\d{1,3})?/,Zd=/[0-9]*['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+|[\u0600-\u06FF\/]+(\s*?[\u0600-\u06FF]+){1,2}/i,$d={},_d={},ae=0,be=1,ce=2,de=3,ee=4,fe=5,ge=6,he=7,ie=8;vd=Array.prototype.indexOf?Array.prototype.indexOf:function(a){
+// I know
+var b;for(b=0;b<this.length;++b)if(this[b]===a)return b;return-1};var je=vd;
+// FORMATTING
+U("M",["MM",2],"Mo",function(){return this.month()+1}),U("MMM",0,0,function(a){return this.localeData().monthsShort(this,a)}),U("MMMM",0,0,function(a){return this.localeData().months(this,a)}),
+// ALIASES
+J("month","M"),
+// PRIORITY
+M("month",8),
+// PARSING
+Z("M",Od),Z("MM",Od,Kd),Z("MMM",function(a,b){return b.monthsShortRegex(a)}),Z("MMMM",function(a,b){return b.monthsRegex(a)}),ba(["M","MM"],function(a,b){b[be]=u(a)-1}),ba(["MMM","MMMM"],function(a,b,c,d){var e=c._locale.monthsParse(a,d,c._strict);
+// if we didn't find a month name, mark the date as invalid.
+null!=e?b[be]=e:m(c).invalidMonth=a});
+// LOCALES
+var ke=/D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/,le="January_February_March_April_May_June_July_August_September_October_November_December".split("_"),me="Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),ne=Zd,oe=Zd;
+// FORMATTING
+U("Y",0,0,function(){var a=this.year();return a<=9999?""+a:"+"+a}),U(0,["YY",2],0,function(){return this.year()%100}),U(0,["YYYY",4],0,"year"),U(0,["YYYYY",5],0,"year"),U(0,["YYYYYY",6,!0],0,"year"),
+// ALIASES
+J("year","y"),
+// PRIORITIES
+M("year",1),
+// PARSING
+Z("Y",Vd),Z("YY",Od,Kd),Z("YYYY",Sd,Md),Z("YYYYY",Td,Nd),Z("YYYYYY",Td,Nd),ba(["YYYYY","YYYYYY"],ae),ba("YYYY",function(b,c){c[ae]=2===b.length?a.parseTwoDigitYear(b):u(b)}),ba("YY",function(b,c){c[ae]=a.parseTwoDigitYear(b)}),ba("Y",function(a,b){b[ae]=parseInt(a,10)}),
+// HOOKS
+a.parseTwoDigitYear=function(a){return u(a)+(u(a)>68?1900:2e3)};
+// MOMENTS
+var pe=O("FullYear",!0);
+// FORMATTING
+U("w",["ww",2],"wo","week"),U("W",["WW",2],"Wo","isoWeek"),
+// ALIASES
+J("week","w"),J("isoWeek","W"),
+// PRIORITIES
+M("week",5),M("isoWeek",5),
+// PARSING
+Z("w",Od),Z("ww",Od,Kd),Z("W",Od),Z("WW",Od,Kd),ca(["w","ww","W","WW"],function(a,b,c,d){b[d.substr(0,1)]=u(a)});var qe={dow:0,// Sunday is the first day of the week.
+doy:6};
+// FORMATTING
+U("d",0,"do","day"),U("dd",0,0,function(a){return this.localeData().weekdaysMin(this,a)}),U("ddd",0,0,function(a){return this.localeData().weekdaysShort(this,a)}),U("dddd",0,0,function(a){return this.localeData().weekdays(this,a)}),U("e",0,0,"weekday"),U("E",0,0,"isoWeekday"),
+// ALIASES
+J("day","d"),J("weekday","e"),J("isoWeekday","E"),
+// PRIORITY
+M("day",11),M("weekday",11),M("isoWeekday",11),
+// PARSING
+Z("d",Od),Z("e",Od),Z("E",Od),Z("dd",function(a,b){return b.weekdaysMinRegex(a)}),Z("ddd",function(a,b){return b.weekdaysShortRegex(a)}),Z("dddd",function(a,b){return b.weekdaysRegex(a)}),ca(["dd","ddd","dddd"],function(a,b,c,d){var e=c._locale.weekdaysParse(a,d,c._strict);
+// if we didn't get a weekday name, mark the date as invalid
+null!=e?b.d=e:m(c).invalidWeekday=a}),ca(["d","e","E"],function(a,b,c,d){b[d]=u(a)});
+// LOCALES
+var re="Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),se="Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),te="Su_Mo_Tu_We_Th_Fr_Sa".split("_"),ue=Zd,ve=Zd,we=Zd;U("H",["HH",2],0,"hour"),U("h",["hh",2],0,Ra),U("k",["kk",2],0,Sa),U("hmm",0,0,function(){return""+Ra.apply(this)+T(this.minutes(),2)}),U("hmmss",0,0,function(){return""+Ra.apply(this)+T(this.minutes(),2)+T(this.seconds(),2)}),U("Hmm",0,0,function(){return""+this.hours()+T(this.minutes(),2)}),U("Hmmss",0,0,function(){return""+this.hours()+T(this.minutes(),2)+T(this.seconds(),2)}),Ta("a",!0),Ta("A",!1),
+// ALIASES
+J("hour","h"),
+// PRIORITY
+M("hour",13),Z("a",Ua),Z("A",Ua),Z("H",Od),Z("h",Od),Z("HH",Od,Kd),Z("hh",Od,Kd),Z("hmm",Pd),Z("hmmss",Qd),Z("Hmm",Pd),Z("Hmmss",Qd),ba(["H","HH"],de),ba(["a","A"],function(a,b,c){c._isPm=c._locale.isPM(a),c._meridiem=a}),ba(["h","hh"],function(a,b,c){b[de]=u(a),m(c).bigHour=!0}),ba("hmm",function(a,b,c){var d=a.length-2;b[de]=u(a.substr(0,d)),b[ee]=u(a.substr(d)),m(c).bigHour=!0}),ba("hmmss",function(a,b,c){var d=a.length-4,e=a.length-2;b[de]=u(a.substr(0,d)),b[ee]=u(a.substr(d,2)),b[fe]=u(a.substr(e)),m(c).bigHour=!0}),ba("Hmm",function(a,b,c){var d=a.length-2;b[de]=u(a.substr(0,d)),b[ee]=u(a.substr(d))}),ba("Hmmss",function(a,b,c){var d=a.length-4,e=a.length-2;b[de]=u(a.substr(0,d)),b[ee]=u(a.substr(d,2)),b[fe]=u(a.substr(e))});var xe,ye=/[ap]\.?m?\.?/i,ze=O("Hours",!0),Ae={calendar:xd,longDateFormat:yd,invalidDate:zd,ordinal:Ad,ordinalParse:Bd,relativeTime:Cd,months:le,monthsShort:me,week:qe,weekdays:re,weekdaysMin:te,weekdaysShort:se,meridiemParse:ye},Be={},Ce={},De=/^\s*((?:[+-]\d{6}|\d{4})-(?:\d\d-\d\d|W\d\d-\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?::\d\d(?::\d\d(?:[.,]\d+)?)?)?)([\+\-]\d\d(?::?\d\d)?|\s*Z)?)?$/,Ee=/^\s*((?:[+-]\d{6}|\d{4})(?:\d\d\d\d|W\d\d\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?:\d\d(?:\d\d(?:[.,]\d+)?)?)?)([\+\-]\d\d(?::?\d\d)?|\s*Z)?)?$/,Fe=/Z|[+-]\d\d(?::?\d\d)?/,Ge=[["YYYYYY-MM-DD",/[+-]\d{6}-\d\d-\d\d/],["YYYY-MM-DD",/\d{4}-\d\d-\d\d/],["GGGG-[W]WW-E",/\d{4}-W\d\d-\d/],["GGGG-[W]WW",/\d{4}-W\d\d/,!1],["YYYY-DDD",/\d{4}-\d{3}/],["YYYY-MM",/\d{4}-\d\d/,!1],["YYYYYYMMDD",/[+-]\d{10}/],["YYYYMMDD",/\d{8}/],
+// YYYYMM is NOT allowed by the standard
+["GGGG[W]WWE",/\d{4}W\d{3}/],["GGGG[W]WW",/\d{4}W\d{2}/,!1],["YYYYDDD",/\d{7}/]],He=[["HH:mm:ss.SSSS",/\d\d:\d\d:\d\d\.\d+/],["HH:mm:ss,SSSS",/\d\d:\d\d:\d\d,\d+/],["HH:mm:ss",/\d\d:\d\d:\d\d/],["HH:mm",/\d\d:\d\d/],["HHmmss.SSSS",/\d\d\d\d\d\d\.\d+/],["HHmmss,SSSS",/\d\d\d\d\d\d,\d+/],["HHmmss",/\d\d\d\d\d\d/],["HHmm",/\d\d\d\d/],["HH",/\d\d/]],Ie=/^\/?Date\((\-?\d+)/i;a.createFromInputFallback=x("value provided is not in a recognized ISO format. moment construction falls back to js Date(), which is not reliable across all browsers and versions. Non ISO date formats are discouraged and will be removed in an upcoming major release. Please refer to http://momentjs.com/guides/#/warnings/js-date/ for more info.",function(a){a._d=new Date(a._i+(a._useUTC?" UTC":""))}),
+// constant that refers to the ISO standard
+a.ISO_8601=function(){};var Je=x("moment().min is deprecated, use moment.max instead. http://momentjs.com/guides/#/warnings/min-max/",function(){var a=sb.apply(null,arguments);return this.isValid()&&a.isValid()?a<this?this:a:o()}),Ke=x("moment().max is deprecated, use moment.min instead. http://momentjs.com/guides/#/warnings/min-max/",function(){var a=sb.apply(null,arguments);return this.isValid()&&a.isValid()?a>this?this:a:o()}),Le=function(){return Date.now?Date.now():+new Date};zb("Z",":"),zb("ZZ",""),
+// PARSING
+Z("Z",Xd),Z("ZZ",Xd),ba(["Z","ZZ"],function(a,b,c){c._useUTC=!0,c._tzm=Ab(Xd,a)});
+// HELPERS
+// timezone chunker
+// '+10:00' > ['10',  '00']
+// '-1530'  > ['-15', '30']
+var Me=/([\+\-]|\d\d)/gi;
+// HOOKS
+// This function will be called whenever a moment is mutated.
+// It is intended to keep the offset in sync with the timezone.
+a.updateOffset=function(){};
+// ASP.NET json date format regex
+var Ne=/^(\-)?(?:(\d*)[. ])?(\d+)\:(\d+)(?:\:(\d+)(\.\d*)?)?$/,Oe=/^(-)?P(?:(-?[0-9,.]*)Y)?(?:(-?[0-9,.]*)M)?(?:(-?[0-9,.]*)W)?(?:(-?[0-9,.]*)D)?(?:T(?:(-?[0-9,.]*)H)?(?:(-?[0-9,.]*)M)?(?:(-?[0-9,.]*)S)?)?$/;Ob.fn=wb.prototype;var Pe=Sb(1,"add"),Qe=Sb(-1,"subtract");a.defaultFormat="YYYY-MM-DDTHH:mm:ssZ",a.defaultFormatUtc="YYYY-MM-DDTHH:mm:ss[Z]";var Re=x("moment().lang() is deprecated. Instead, use moment().localeData() to get the language configuration. Use moment().locale() to change languages.",function(a){return void 0===a?this.localeData():this.locale(a)});
+// FORMATTING
+U(0,["gg",2],0,function(){return this.weekYear()%100}),U(0,["GG",2],0,function(){return this.isoWeekYear()%100}),zc("gggg","weekYear"),zc("ggggg","weekYear"),zc("GGGG","isoWeekYear"),zc("GGGGG","isoWeekYear"),
+// ALIASES
+J("weekYear","gg"),J("isoWeekYear","GG"),
+// PRIORITY
+M("weekYear",1),M("isoWeekYear",1),
+// PARSING
+Z("G",Vd),Z("g",Vd),Z("GG",Od,Kd),Z("gg",Od,Kd),Z("GGGG",Sd,Md),Z("gggg",Sd,Md),Z("GGGGG",Td,Nd),Z("ggggg",Td,Nd),ca(["gggg","ggggg","GGGG","GGGGG"],function(a,b,c,d){b[d.substr(0,2)]=u(a)}),ca(["gg","GG"],function(b,c,d,e){c[e]=a.parseTwoDigitYear(b)}),
+// FORMATTING
+U("Q",0,"Qo","quarter"),
+// ALIASES
+J("quarter","Q"),
+// PRIORITY
+M("quarter",7),
+// PARSING
+Z("Q",Jd),ba("Q",function(a,b){b[be]=3*(u(a)-1)}),
+// FORMATTING
+U("D",["DD",2],"Do","date"),
+// ALIASES
+J("date","D"),
+// PRIOROITY
+M("date",9),
+// PARSING
+Z("D",Od),Z("DD",Od,Kd),Z("Do",function(a,b){return a?b._ordinalParse:b._ordinalParseLenient}),ba(["D","DD"],ce),ba("Do",function(a,b){b[ce]=u(a.match(Od)[0],10)});
+// MOMENTS
+var Se=O("Date",!0);
+// FORMATTING
+U("DDD",["DDDD",3],"DDDo","dayOfYear"),
+// ALIASES
+J("dayOfYear","DDD"),
+// PRIORITY
+M("dayOfYear",4),
+// PARSING
+Z("DDD",Rd),Z("DDDD",Ld),ba(["DDD","DDDD"],function(a,b,c){c._dayOfYear=u(a)}),
+// FORMATTING
+U("m",["mm",2],0,"minute"),
+// ALIASES
+J("minute","m"),
+// PRIORITY
+M("minute",14),
+// PARSING
+Z("m",Od),Z("mm",Od,Kd),ba(["m","mm"],ee);
+// MOMENTS
+var Te=O("Minutes",!1);
+// FORMATTING
+U("s",["ss",2],0,"second"),
+// ALIASES
+J("second","s"),
+// PRIORITY
+M("second",15),
+// PARSING
+Z("s",Od),Z("ss",Od,Kd),ba(["s","ss"],fe);
+// MOMENTS
+var Ue=O("Seconds",!1);
+// FORMATTING
+U("S",0,0,function(){return~~(this.millisecond()/100)}),U(0,["SS",2],0,function(){return~~(this.millisecond()/10)}),U(0,["SSS",3],0,"millisecond"),U(0,["SSSS",4],0,function(){return 10*this.millisecond()}),U(0,["SSSSS",5],0,function(){return 100*this.millisecond()}),U(0,["SSSSSS",6],0,function(){return 1e3*this.millisecond()}),U(0,["SSSSSSS",7],0,function(){return 1e4*this.millisecond()}),U(0,["SSSSSSSS",8],0,function(){return 1e5*this.millisecond()}),U(0,["SSSSSSSSS",9],0,function(){return 1e6*this.millisecond()}),
+// ALIASES
+J("millisecond","ms"),
+// PRIORITY
+M("millisecond",16),
+// PARSING
+Z("S",Rd,Jd),Z("SS",Rd,Kd),Z("SSS",Rd,Ld);var Ve;for(Ve="SSSS";Ve.length<=9;Ve+="S")Z(Ve,Ud);for(Ve="S";Ve.length<=9;Ve+="S")ba(Ve,Ic);
+// MOMENTS
+var We=O("Milliseconds",!1);
+// FORMATTING
+U("z",0,0,"zoneAbbr"),U("zz",0,0,"zoneName");var Xe=r.prototype;Xe.add=Pe,Xe.calendar=Vb,Xe.clone=Wb,Xe.diff=bc,Xe.endOf=oc,Xe.format=gc,Xe.from=hc,Xe.fromNow=ic,Xe.to=jc,Xe.toNow=kc,Xe.get=R,Xe.invalidAt=xc,Xe.isAfter=Xb,Xe.isBefore=Yb,Xe.isBetween=Zb,Xe.isSame=$b,Xe.isSameOrAfter=_b,Xe.isSameOrBefore=ac,Xe.isValid=vc,Xe.lang=Re,Xe.locale=lc,Xe.localeData=mc,Xe.max=Ke,Xe.min=Je,Xe.parsingFlags=wc,Xe.set=S,Xe.startOf=nc,Xe.subtract=Qe,Xe.toArray=sc,Xe.toObject=tc,Xe.toDate=rc,Xe.toISOString=ec,Xe.inspect=fc,Xe.toJSON=uc,Xe.toString=dc,Xe.unix=qc,Xe.valueOf=pc,Xe.creationData=yc,
+// Year
+Xe.year=pe,Xe.isLeapYear=ra,
+// Week Year
+Xe.weekYear=Ac,Xe.isoWeekYear=Bc,
+// Quarter
+Xe.quarter=Xe.quarters=Gc,
+// Month
+Xe.month=ka,Xe.daysInMonth=la,
+// Week
+Xe.week=Xe.weeks=Ba,Xe.isoWeek=Xe.isoWeeks=Ca,Xe.weeksInYear=Dc,Xe.isoWeeksInYear=Cc,
+// Day
+Xe.date=Se,Xe.day=Xe.days=Ka,Xe.weekday=La,Xe.isoWeekday=Ma,Xe.dayOfYear=Hc,
+// Hour
+Xe.hour=Xe.hours=ze,
+// Minute
+Xe.minute=Xe.minutes=Te,
+// Second
+Xe.second=Xe.seconds=Ue,
+// Millisecond
+Xe.millisecond=Xe.milliseconds=We,
+// Offset
+Xe.utcOffset=Db,Xe.utc=Fb,Xe.local=Gb,Xe.parseZone=Hb,Xe.hasAlignedHourOffset=Ib,Xe.isDST=Jb,Xe.isLocal=Lb,Xe.isUtcOffset=Mb,Xe.isUtc=Nb,Xe.isUTC=Nb,
+// Timezone
+Xe.zoneAbbr=Jc,Xe.zoneName=Kc,
+// Deprecations
+Xe.dates=x("dates accessor is deprecated. Use date instead.",Se),Xe.months=x("months accessor is deprecated. Use month instead",ka),Xe.years=x("years accessor is deprecated. Use year instead",pe),Xe.zone=x("moment().zone is deprecated, use moment().utcOffset instead. http://momentjs.com/guides/#/warnings/zone/",Eb),Xe.isDSTShifted=x("isDSTShifted is deprecated. See http://momentjs.com/guides/#/warnings/dst-shifted/ for more information",Kb);var Ye=C.prototype;Ye.calendar=D,Ye.longDateFormat=E,Ye.invalidDate=F,Ye.ordinal=G,Ye.preparse=Nc,Ye.postformat=Nc,Ye.relativeTime=H,Ye.pastFuture=I,Ye.set=A,
+// Month
+Ye.months=fa,Ye.monthsShort=ga,Ye.monthsParse=ia,Ye.monthsRegex=na,Ye.monthsShortRegex=ma,
+// Week
+Ye.week=ya,Ye.firstDayOfYear=Aa,Ye.firstDayOfWeek=za,
+// Day of Week
+Ye.weekdays=Fa,Ye.weekdaysMin=Ha,Ye.weekdaysShort=Ga,Ye.weekdaysParse=Ja,Ye.weekdaysRegex=Na,Ye.weekdaysShortRegex=Oa,Ye.weekdaysMinRegex=Pa,
+// Hours
+Ye.isPM=Va,Ye.meridiem=Wa,$a("en",{ordinalParse:/\d{1,2}(th|st|nd|rd)/,ordinal:function(a){var b=a%10,c=1===u(a%100/10)?"th":1===b?"st":2===b?"nd":3===b?"rd":"th";return a+c}}),
+// Side effect imports
+a.lang=x("moment.lang is deprecated. Use moment.locale instead.",$a),a.langData=x("moment.langData is deprecated. Use moment.localeData instead.",bb);var Ze=Math.abs,$e=ed("ms"),_e=ed("s"),af=ed("m"),bf=ed("h"),cf=ed("d"),df=ed("w"),ef=ed("M"),ff=ed("y"),gf=gd("milliseconds"),hf=gd("seconds"),jf=gd("minutes"),kf=gd("hours"),lf=gd("days"),mf=gd("months"),nf=gd("years"),of=Math.round,pf={s:45,// seconds to minute
+m:45,// minutes to hour
+h:22,// hours to day
+d:26,// days to month
+M:11},qf=Math.abs,rf=wb.prototype;
+// Deprecations
+// Side effect imports
+// FORMATTING
+// PARSING
+// Side effect imports
+return rf.abs=Wc,rf.add=Yc,rf.subtract=Zc,rf.as=cd,rf.asMilliseconds=$e,rf.asSeconds=_e,rf.asMinutes=af,rf.asHours=bf,rf.asDays=cf,rf.asWeeks=df,rf.asMonths=ef,rf.asYears=ff,rf.valueOf=dd,rf._bubble=_c,rf.get=fd,rf.milliseconds=gf,rf.seconds=hf,rf.minutes=jf,rf.hours=kf,rf.days=lf,rf.weeks=hd,rf.months=mf,rf.years=nf,rf.humanize=md,rf.toISOString=nd,rf.toString=nd,rf.toJSON=nd,rf.locale=lc,rf.localeData=mc,rf.toIsoString=x("toIsoString() is deprecated. Please use toISOString() instead (notice the capitals)",nd),rf.lang=Re,U("X",0,0,"unix"),U("x",0,0,"valueOf"),Z("x",Vd),Z("X",Yd),ba("X",function(a,b,c){c._d=new Date(1e3*parseFloat(a,10))}),ba("x",function(a,b,c){c._d=new Date(u(a))}),a.version="2.17.1",b(sb),a.fn=Xe,a.min=ub,a.max=vb,a.now=Le,a.utc=k,a.unix=Lc,a.months=Rc,a.isDate=g,a.locale=$a,a.invalid=o,a.duration=Ob,a.isMoment=s,a.weekdays=Tc,a.parseZone=Mc,a.localeData=bb,a.isDuration=xb,a.monthsShort=Sc,a.weekdaysMin=Vc,a.defineLocale=_a,a.updateLocale=ab,a.locales=cb,a.weekdaysShort=Uc,a.normalizeUnits=K,a.relativeTimeRounding=kd,a.relativeTimeThreshold=ld,a.calendarFormat=Ub,a.prototype=Xe,a});
+/**
+ * jquery-date-range-picker
+ * @version v0.14.3
+ * @link https://github.com/longbill/jquery-date-range-picker
+ * @license MIT
+ */
+!function(e){"function"==typeof define&&define.amd?define(["jquery","moment"],e):"object"==typeof exports&&"undefined"!=typeof module?module.exports=e(require("jquery"),require("moment")):e(jQuery,moment)}(function(e,t){"use strict";e.dateRangePickerLanguages={"default":{selected:"Selected:",day:"Day",days:"Days",apply:"Close","week-1":"mo","week-2":"tu","week-3":"we","week-4":"th","week-5":"fr","week-6":"sa","week-7":"su","week-number":"W","month-name":["january","february","march","april","may","june","july","august","september","october","november","december"],shortcuts:"Shortcuts","custom-values":"Custom Values",past:"Past",following:"Following",previous:"Previous","prev-week":"Week","prev-month":"Month","prev-year":"Year",next:"Next","next-week":"Week","next-month":"Month","next-year":"Year","less-than":"Date range should not be more than %d days","more-than":"Date range should not be less than %d days","default-more":"Please select a date range longer than %d days","default-single":"Please select a date","default-less":"Please select a date range less than %d days","default-range":"Please select a date range between %d and %d days","default-default":"Please select a date range",time:"Time",hour:"Hour",minute:"Minute"},id:{selected:"Terpilih:",day:"Hari",days:"Hari",apply:"Tutup","week-1":"sen","week-2":"sel","week-3":"rab","week-4":"kam","week-5":"jum","week-6":"sab","week-7":"min","week-number":"W","month-name":["januari","februari","maret","april","mei","juni","juli","agustus","september","oktober","november","desember"],shortcuts:"Pintas","custom-values":"Nilai yang ditentukan",past:"Yang Lalu",following:"Mengikuti",previous:"Sebelumnya","prev-week":"Minggu","prev-month":"Bulan","prev-year":"Tahun",next:"Selanjutnya","next-week":"Minggu","next-month":"Bulan","next-year":"Tahun","less-than":"Tanggal harus lebih dari %d hari","more-than":"Tanggal harus kurang dari %d hari","default-more":"Jarak tanggal harus lebih lama dari %d hari","default-single":"Silakan pilih tanggal","default-less":"Jarak rentang tanggal tidak boleh lebih lama dari %d hari","default-range":"Rentang tanggal harus antara %d dan %d hari","default-default":"Silakan pilih rentang tanggal",time:"Waktu",hour:"Jam",minute:"Menit"},az:{selected:"Seçildi:",day:" gün",days:" gün",apply:"tətbiq","week-1":"1","week-2":"2","week-3":"3","week-4":"4","week-5":"5","week-6":"6","week-7":"7","month-name":["yanvar","fevral","mart","aprel","may","iyun","iyul","avqust","sentyabr","oktyabr","noyabr","dekabr"],shortcuts:"Qısayollar",past:"Keçmiş",following:"Növbəti",previous:"&nbsp;&nbsp;&nbsp;","prev-week":"Öncəki həftə","prev-month":"Öncəki ay","prev-year":"Öncəki il",next:"&nbsp;&nbsp;&nbsp;","next-week":"Növbəti həftə","next-month":"Növbəti ay","next-year":"Növbəti il","less-than":"Tarix aralığı %d gündən çox olmamalıdır","more-than":"Tarix aralığı %d gündən az olmamalıdır","default-more":"%d gündən çox bir tarix seçin","default-single":"Tarix seçin","default-less":"%d gündən az bir tarix seçin","default-range":"%d və %d gün aralığında tarixlər seçin","default-default":"Tarix aralığı seçin"},cn:{selected:"已选择:",day:"天",days:"天",apply:"确定","week-1":"一","week-2":"二","week-3":"三","week-4":"四","week-5":"五","week-6":"六","week-7":"日","week-number":"周","month-name":["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"],shortcuts:"快捷选择",past:"过去",following:"将来",previous:"&nbsp;&nbsp;&nbsp;","prev-week":"上周","prev-month":"上个月","prev-year":"去年",next:"&nbsp;&nbsp;&nbsp;","next-week":"下周","next-month":"下个月","next-year":"明年","less-than":"所选日期范围不能大于%d天","more-than":"所选日期范围不能小于%d天","default-more":"请选择大于%d天的日期范围","default-less":"请选择小于%d天的日期范围","default-range":"请选择%d天到%d天的日期范围","default-single":"请选择一个日期","default-default":"请选择一个日期范围",time:"时间",hour:"小时",minute:"分钟"},cz:{selected:"Vybráno:",day:"Den",days:"Dny",apply:"Zavřít","week-1":"po","week-2":"út","week-3":"st","week-4":"čt","week-5":"pá","week-6":"so","week-7":"ne","month-name":["leden","únor","březen","duben","květen","červen","červenec","srpen","září","říjen","listopad","prosinec"],shortcuts:"Zkratky",past:"po",following:"následující",previous:"předchozí","prev-week":"týden","prev-month":"měsíc","prev-year":"rok",next:"další","next-week":"týden","next-month":"měsíc","next-year":"rok","less-than":"Rozsah data by neměl být větší než %d dnů","more-than":"Rozsah data by neměl být menší než %d dnů","default-more":"Prosím zvolte rozsah data větší než %d dnů","default-single":"Prosím zvolte datum","default-less":"Prosím zvolte rozsah data menší než %d dnů","default-range":"Prosím zvolte rozsah data mezi %d a %d dny","default-default":"Prosím zvolte rozsah data"},de:{selected:"Auswahl:",day:"Tag",days:"Tage",apply:"Schließen","week-1":"mo","week-2":"di","week-3":"mi","week-4":"do","week-5":"fr","week-6":"sa","week-7":"so","month-name":["januar","februar","märz","april","mai","juni","juli","august","september","oktober","november","dezember"],shortcuts:"Schnellwahl",past:"Vorherige",following:"Folgende",previous:"Vorherige","prev-week":"Woche","prev-month":"Monat","prev-year":"Jahr",next:"Nächste","next-week":"Woche","next-month":"Monat","next-year":"Jahr","less-than":"Datumsbereich darf nicht größer sein als %d Tage","more-than":"Datumsbereich darf nicht kleiner sein als %d Tage","default-more":"Bitte mindestens %d Tage auswählen","default-single":"Bitte ein Datum auswählen","default-less":"Bitte weniger als %d Tage auswählen","default-range":"Bitte einen Datumsbereich zwischen %d und %d Tagen auswählen","default-default":"Bitte ein Start- und Enddatum auswählen",Time:"Zeit",hour:"Stunde",minute:"Minute"},es:{selected:"Seleccionado:",day:"Día",days:"Días",apply:"Cerrar","week-1":"lu","week-2":"ma","week-3":"mi","week-4":"ju","week-5":"vi","week-6":"sa","week-7":"do","month-name":["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"],shortcuts:"Accesos directos",past:"Pasado",following:"Siguiente",previous:"Anterior","prev-week":"Semana","prev-month":"Mes","prev-year":"Año",next:"Siguiente","next-week":"Semana","next-month":"Mes","next-year":"Año","less-than":"El rango no debería ser mayor de %d días","more-than":"El rango no debería ser menor de %d días","default-more":"Por favor selecciona un rango mayor a %d días","default-single":"Por favor selecciona un día","default-less":"Por favor selecciona un rango menor a %d días","default-range":"Por favor selecciona un rango entre %d y %d días","default-default":"Por favor selecciona un rango de fechas."},fr:{selected:"Sélection:",day:"Jour",days:"Jours",apply:"Fermer","week-1":"lu","week-2":"ma","week-3":"me","week-4":"je","week-5":"ve","week-6":"sa","week-7":"di","month-name":["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"],shortcuts:"Raccourcis",past:"Passé",following:"Suivant",previous:"Précédent","prev-week":"Semaine","prev-month":"Mois","prev-year":"Année",next:"Suivant","next-week":"Semaine","next-month":"Mois","next-year":"Année","less-than":"L'intervalle ne doit pas être supérieure à %d jours","more-than":"L'intervalle ne doit pas être inférieure à %d jours","default-more":"Merci de choisir une intervalle supérieure à %d jours","default-single":"Merci de choisir une date","default-less":"Merci de choisir une intervalle inférieure %d jours","default-range":"Merci de choisir une intervalle comprise entre %d et %d jours","default-default":"Merci de choisir une date"},hu:{selected:"Kiválasztva:",day:"Nap",days:"Nap",apply:"Ok","week-1":"h","week-2":"k","week-3":"sz","week-4":"cs","week-5":"p","week-6":"sz","week-7":"v","month-name":["január","február","március","április","május","június","július","augusztus","szeptember","október","november","december"],shortcuts:"Gyorsválasztó",past:"Múlt",following:"Következő",previous:"Előző","prev-week":"Hét","prev-month":"Hónap","prev-year":"Év",next:"Következő","next-week":"Hét","next-month":"Hónap","next-year":"Év","less-than":"A kiválasztás nem lehet több %d napnál","more-than":"A kiválasztás nem lehet több %d napnál","default-more":"Válassz ki egy időszakot ami hosszabb mint %d nap","default-single":"Válassz egy napot","default-less":"Válassz ki egy időszakot ami rövidebb mint %d nap","default-range":"Válassz ki egy %d - %d nap hosszú időszakot","default-default":"Válassz ki egy időszakot"},it:{selected:"Selezionati:",day:"Giorno",days:"Giorni",apply:"Chiudi","week-1":"lu","week-2":"ma","week-3":"me","week-4":"gi","week-5":"ve","week-6":"sa","week-7":"do","month-name":["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"],shortcuts:"Scorciatoie",past:"Scorso",following:"Successivo",previous:"Precedente","prev-week":"Settimana","prev-month":"Mese","prev-year":"Anno",next:"Prossimo","next-week":"Settimana","next-month":"Mese","next-year":"Anno","less-than":"L'intervallo non dev'essere maggiore di %d giorni","more-than":"L'intervallo non dev'essere minore di %d giorni","default-more":"Seleziona un intervallo maggiore di %d giorni","default-single":"Seleziona una data","default-less":"Seleziona un intervallo minore di %d giorni","default-range":"Seleziona un intervallo compreso tra i %d e i %d giorni","default-default":"Seleziona un intervallo di date"},ko:{selected:"기간:",day:"일",days:"일간",apply:"닫기","week-1":"월","week-2":"화","week-3":"수","week-4":"목","week-5":"금","week-6":"토","week-7":"일","week-number":"주","month-name":["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],shortcuts:"단축키들",past:"지난(오늘기준)",following:"이후(오늘기준)",previous:"이전","prev-week":"1주","prev-month":"1달","prev-year":"1년",next:"다음","next-week":"1주","next-month":"1달","next-year":"1년","less-than":"날짜 범위는 %d 일보다 많을 수 없습니다","more-than":"날짜 범위는 %d 일보다 작을 수 없습니다","default-more":"날짜 범위를 %d 일보다 길게 선택해 주세요","default-single":"날짜를 선택해 주세요","default-less":"%d 일보다 작은 날짜를 선택해 주세요","default-range":"%d와 %d 일 사이의 날짜 범위를 선택해 주세요","default-default":"날짜 범위를 선택해 주세요",time:"시각",hour:"시",minute:"분"},no:{selected:"Valgt:",day:"Dag",days:"Dager",apply:"Lukk","week-1":"ma","week-2":"ti","week-3":"on","week-4":"to","week-5":"fr","week-6":"lø","week-7":"sø","month-name":["januar","februar","mars","april","mai","juni","juli","august","september","oktober","november","desember"],shortcuts:"Snarveier","custom-values":"Egendefinerte Verdier",past:"Over",following:"Følger",previous:"Forrige","prev-week":"Uke","prev-month":"Måned","prev-year":"År",next:"Neste","next-week":"Uke","next-month":"Måned","next-year":"År","less-than":"Datoperioden skal ikkje være lengre enn %d dager","more-than":"Datoperioden skal ikkje være kortere enn %d dager","default-more":"Vennligst velg ein datoperiode lengre enn %d dager","default-single":"Vennligst velg ein dato","default-less":"Vennligst velg ein datoperiode mindre enn %d dager","default-range":"Vennligst velg ein datoperiode mellom %d og %d dager","default-default":"Vennligst velg ein datoperiode",time:"Tid",hour:"Time",minute:"Minutter"},nl:{selected:"Geselecteerd:",day:"Dag",days:"Dagen",apply:"Ok","week-1":"ma","week-2":"di","week-3":"wo","week-4":"do","week-5":"vr","week-6":"za","week-7":"zo","month-name":["januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december"],shortcuts:"Snelkoppelingen","custom-values":"Aangepaste waarden",past:"Verleden",following:"Komend",previous:"Vorige","prev-week":"Week","prev-month":"Maand","prev-year":"Jaar",next:"Volgende","next-week":"Week","next-month":"Maand","next-year":"Jaar","less-than":"Interval moet langer dan %d dagen zijn","more-than":"Interval mag niet minder dan %d dagen zijn","default-more":"Selecteer een interval langer dan %dagen","default-single":"Selecteer een datum","default-less":"Selecteer een interval minder dan %d dagen","default-range":"Selecteer een interval tussen %d en %d dagen","default-default":"Selecteer een interval",time:"Tijd",hour:"Uur",minute:"Minuut"},ru:{selected:"Выбрано:",day:"День",days:"Дней",apply:"Применить","week-1":"пн","week-2":"вт","week-3":"ср","week-4":"чт","week-5":"пт","week-6":"сб","week-7":"вс","month-name":["январь","февраль","март","апрель","май","июнь","июль","август","сентябрь","октябрь","ноябрь","декабрь"],shortcuts:"Быстрый выбор","custom-values":"Пользовательские значения",past:"Прошедшие",following:"Следующие",previous:"&nbsp;&nbsp;&nbsp;","prev-week":"Неделя","prev-month":"Месяц","prev-year":"Год",next:"&nbsp;&nbsp;&nbsp;","next-week":"Неделя","next-month":"Месяц","next-year":"Год","less-than":"Диапазон не может быть больше %d дней","more-than":"Диапазон не может быть меньше %d дней","default-more":"Пожалуйста выберите диапазон больше %d дней","default-single":"Пожалуйста выберите дату","default-less":"Пожалуйста выберите диапазон меньше %d дней","default-range":"Пожалуйста выберите диапазон между %d и %d днями","default-default":"Пожалуйста выберите диапазон",time:"Время",hour:"Часы",minute:"Минуты"},pl:{selected:"Wybrany:",day:"Dzień",days:"Dni",apply:"Zamknij","week-1":"pon","week-2":"wt","week-3":"śr","week-4":"czw","week-5":"pt","week-6":"so","week-7":"nd","month-name":["styczeń","luty","marzec","kwiecień","maj","czerwiec","lipiec","sierpień","wrzesień","październik","listopad","grudzień"],shortcuts:"Skróty","custom-values":"Niestandardowe wartości",past:"Przeszłe",following:"Następne",previous:"Poprzednie","prev-week":"tydzień","prev-month":"miesiąc","prev-year":"rok",next:"Następny","next-week":"tydzień","next-month":"miesiąc","next-year":"rok","less-than":"Okres nie powinien być dłuższy niż %d dni","more-than":"Okres nie powinien być krótszy niż  %d ni","default-more":"Wybierz okres dłuższy niż %d dni","default-single":"Wybierz datę","default-less":"Wybierz okres krótszy niż %d dni","default-range":"Wybierz okres trwający od %d do %d dni","default-default":"Wybierz okres",time:"Czas",hour:"Godzina",minute:"Minuta"},se:{selected:"Vald:",day:"dag",days:"dagar",apply:"godkänn","week-1":"ma","week-2":"ti","week-3":"on","week-4":"to","week-5":"fr","week-6":"lö","week-7":"sö","month-name":["januari","februari","mars","april","maj","juni","juli","augusti","september","oktober","november","december"],shortcuts:"genvägar","custom-values":"Anpassade värden",past:"över",following:"följande",previous:"förra","prev-week":"vecka","prev-month":"månad","prev-year":"år",next:"nästa","next-week":"vecka","next-month":"måned","next-year":"år","less-than":"Datumintervall bör inte vara mindre än %d dagar","more-than":"Datumintervall bör inte vara mer än %d dagar","default-more":"Välj ett datumintervall längre än %d dagar","default-single":"Välj ett datum","default-less":"Välj ett datumintervall mindre än %d dagar","default-range":"Välj ett datumintervall mellan %d och %d dagar","default-default":"Välj ett datumintervall",time:"tid",hour:"timme",minute:"minut"},pt:{selected:"Selecionado:",day:"Dia",days:"Dias",apply:"Fechar","week-1":"seg","week-2":"ter","week-3":"qua","week-4":"qui","week-5":"sex","week-6":"sab","week-7":"dom","week-number":"N","month-name":["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"],shortcuts:"Atalhos","custom-values":"Valores Personalizados",past:"Passado",following:"Seguinte",previous:"Anterior","prev-week":"Semana","prev-month":"Mês","prev-year":"Ano",next:"Próximo","next-week":"Próxima Semana","next-month":"Próximo Mês","next-year":"Próximo Ano","less-than":"O período selecionado não deve ser maior que %d dias","more-than":"O período selecionado não deve ser menor que %d dias","default-more":"Selecione um período superior a %d dias","default-single":"Selecione uma data","default-less":"Selecione um período inferior a %d dias","default-range":"Selecione um período de %d a %d dias","default-default":"Selecione um período",time:"Tempo",hour:"Hora",minute:"Minuto"},tc:{selected:"已選擇:",day:"天",days:"天",apply:"確定","week-1":"一","week-2":"二","week-3":"三","week-4":"四","week-5":"五","week-6":"六","week-7":"日","week-number":"周","month-name":["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"],shortcuts:"快速選擇",past:"過去",following:"將來",previous:"&nbsp;&nbsp;&nbsp;","prev-week":"上週","prev-month":"上個月","prev-year":"去年",next:"&nbsp;&nbsp;&nbsp;","next-week":"下周","next-month":"下個月","next-year":"明年","less-than":"所選日期範圍不能大於%d天","more-than":"所選日期範圍不能小於%d天","default-more":"請選擇大於%d天的日期範圍","default-less":"請選擇小於%d天的日期範圍","default-range":"請選擇%d天到%d天的日期範圍","default-single":"請選擇一個日期","default-default":"請選擇一個日期範圍",time:"日期",hour:"小時",minute:"分鐘"},ja:{selected:"選択しました:",day:"日",days:"日々",apply:"閉じる","week-1":"月","week-2":"火","week-3":"水","week-4":"木","week-5":"金","week-6":"土","week-7":"日","month-name":["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],shortcuts:"クイック選択",past:"過去",following:"将来",previous:"&nbsp;&nbsp;&nbsp;","prev-week":"先週、","prev-month":"先月","prev-year":"昨年",next:"&nbsp;&nbsp;&nbsp;","next-week":"来週","next-month":"来月","next-year":"来年","less-than":"日付の範囲は ％d 日以上にすべきではありません","more-than":"日付の範囲は ％d 日を下回ってはいけません","default-more":"％d 日よりも長い期間を選択してください","default-less":"％d 日未満の期間を選択してください","default-range":"％d と％ d日の間の日付範囲を選択してください","default-single":"日付を選択してください","default-default":"日付範囲を選択してください",time:"時間",hour:"時間",minute:"分"},da:{selected:"Valgt:",day:"Dag",days:"Dage",apply:"Luk","week-1":"ma","week-2":"ti","week-3":"on","week-4":"to","week-5":"fr","week-6":"lö","week-7":"sö","month-name":["januar","februar","marts","april","maj","juni","juli","august","september","oktober","november","december"],shortcuts:"genveje","custom-values":"Brugerdefinerede værdier",past:"Forbi",following:"Følgende",previous:"Forrige","prev-week":"uge","prev-month":"månad","prev-year":"år",next:"Næste","next-week":"Næste uge","next-month":"Næste måned","next-year":"Næste år","less-than":"Dato interval bør ikke være med end %d dage","more-than":"Dato interval bør ikke være mindre end %d dage","default-more":"Vælg datointerval længere end %d dage","default-single":"Vælg dato","default-less":"Vælg datointerval mindre end %d dage","default-range":"Vælg datointerval mellem %d og %d dage","default-default":"Vælg datointerval",time:"tid",hour:"time",minute:"minut"},fi:{selected:"Valittu:",day:"Päivä",days:"Päivää",apply:"Sulje","week-1":"ma","week-2":"ti","week-3":"ke","week-4":"to","week-5":"pe","week-6":"la","week-7":"su","week-number":"V","month-name":["tammikuu","helmikuu","maaliskuu","huhtikuu","toukokuu","kesäkuu","heinäkuu","elokuu","syyskuu","lokakuu","marraskuu","joulukuu"],shortcuts:"Pikavalinnat","custom-values":"Mukautetut Arvot",past:"Menneet",following:"Tulevat",previous:"Edellinen","prev-week":"Viikko","prev-month":"Kuukausi","prev-year":"Vuosi",next:"Seuraava","next-week":"Viikko","next-month":"Kuukausi","next-year":"Vuosi","less-than":"Aikajakson tulisi olla vähemmän kuin %d päivää","more-than":"Aikajakson ei tulisi olla vähempää kuin %d päivää","default-more":"Valitse pidempi aikajakso kuin %d päivää","default-single":"Valitse päivä","default-less":"Valitse lyhyempi aikajakso kuin %d päivää","default-range":"Valitse aikajakso %d ja %d päivän väliltä","default-default":"Valitse aikajakso",time:"Aika",hour:"Tunti",minute:"Minuutti"}},e.fn.dateRangePicker=function(a){function n(t,a){return a.contains(t.target)||t.target==a||void 0!=a.childNodes&&e.inArray(t.target,a.childNodes)>=0}function r(){function r(t){var n=e(t).parents("table").hasClass("month2"),r=n?a.month2:a.month1;r=H(r),!a.singleMonth&&!a.singleDate&&!n&&L(r,a.month2)>=0||K(r)||(Y(r,n?"month2":"month1"),A())}function i(e){var t=H(a.month1),n=H(a.month2);K(n)||!a.singleDate&&L(t,n)>=0||(Y(t,"month1"),Y(n,"month2"),S())}function o(t){var n=e(t).parents("table").hasClass("month2"),r=n?a.month2:a.month1;r=R(r),n&&L(r,a.month1)<=0||K(r)||(Y(r,n?"month2":"month1"),A())}function d(e){var t=R(a.month1),n=R(a.month2);K(t)||!a.singleDate&&L(n,t)<=0||(Y(n,"month2"),Y(t,"month1"),S())}var l=this;if(e(this).data("date-picker-opened"))return void N();e(this).data("date-picker-opened",!0),se=$().hide(),se.append('<div class="date-range-length-tip"></div>'),e(a.container).append(se),a.inline?se.addClass("inline-wrapper"):s(),a.alwaysOpen&&se.find(".apply-btn").hide();var m=ne();if(re(m),a.time.enabled)if(a.startDate&&a.endDate||a.start&&a.end)P(t(a.start||a.startDate).toDate(),"time1"),P(t(a.end||a.endDate).toDate(),"time2");else{var h=a.defaultEndTime?a.defaultEndTime:m;P(m,"time1"),P(h,"time2")}var p="";p=ae(a.singleDate?"default-single":a.minDays&&a.maxDays?"default-range":a.minDays?"default-more":a.maxDays?"default-less":"default-default"),se.find(".default-top").html(p.replace(/\%d/,a.minDays).replace(/\%d/,a.maxDays)),a.singleMonth?se.addClass("single-month"):se.addClass("two-months"),setTimeout(function(){u(),de=!0},0),se.click(function(e){e.stopPropagation()}),e(document).bind("click.datepicker",function(e){n(e,l[0])||se.is(":visible")&&N()}),se.find(".next").click(function(){a.stickyMonths?i(this):r(this)}),se.find(".prev").click(function(){a.stickyMonths?d(this):o(this)}),se.attr("unselectable","on").css("user-select","none").bind("selectstart",function(e){return e.preventDefault(),!1}),se.find(".apply-btn").click(function(){N();var t=I(new Date(a.start))+a.separator+I(new Date(a.end));e(l).trigger("datepicker-apply",{value:t,date1:new Date(a.start),date2:new Date(a.end)})}),se.find("[custom]").click(function(){var t=e(this).attr("custom");a.start=!1,a.end=!1,se.find(".day.checked").removeClass("checked"),a.setValue.call(ue,t),T(),z(!0),S(),a.autoClose&&N()}),se.find("[shortcut]").click(function(){var t,n=e(this).attr("shortcut"),r=new Date,s=!1;if(n.indexOf("day")!=-1){var i=parseInt(n.split(",",2)[1],10);s=new Date((new Date).getTime()+864e5*i),r=new Date(r.getTime()+864e5*(i>0?1:-1))}else if(n.indexOf("week")!=-1){t=n.indexOf("prev,")!=-1?-1:1;var o;for(o=1==t?"monday"==a.startOfWeek?1:0:"monday"==a.startOfWeek?0:6,r=new Date(r.getTime()-864e5);r.getDay()!=o;)r=new Date(r.getTime()+864e5*t);s=new Date(r.getTime()+864e5*t*6)}else if(n.indexOf("month")!=-1)t=n.indexOf("prev,")!=-1?-1:1,s=1==t?H(r):R(r),s.setDate(1),r=H(s),r.setDate(1),r=new Date(r.getTime()-864e5);else if(n.indexOf("year")!=-1)t=n.indexOf("prev,")!=-1?-1:1,s=new Date,s.setFullYear(r.getFullYear()+t),s.setMonth(0),s.setDate(1),r.setFullYear(r.getFullYear()+t),r.setMonth(11),r.setDate(31);else if("custom"==n){var d=e(this).html();if(a.customShortcuts&&a.customShortcuts.length>0)for(var l=0;l<a.customShortcuts.length;l++){var u=a.customShortcuts[l];if(u.name==d){var m=[];if(m=u.dates.call(),m&&2==m.length&&(s=m[0],r=m[1]),m&&1==m.length){var h=m[0];Y(h,"month1"),Y(H(h),"month2"),A()}break}}}s&&r&&(O(s,r),T())}),se.find(".time1 input[type=range]").bind("change touchmove",function(t){var a=t.target,n="hour"==a.name?e(a).val().replace(/^(\d{1})$/,"0$1"):void 0,r="minute"==a.name?e(a).val().replace(/^(\d{1})$/,"0$1"):void 0;c("time1",n,r)}),se.find(".time2 input[type=range]").bind("change touchmove",function(t){var a=t.target,n="hour"==a.name?e(a).val().replace(/^(\d{1})$/,"0$1"):void 0,r="minute"==a.name?e(a).val().replace(/^(\d{1})$/,"0$1"):void 0;c("time2",n,r)})}function s(){if(!a.inline){var t=e(le).offset();if("relative"==e(a.container).css("position")){var n=e(a.container).offset();se.css({top:t.top-n.top+e(le).outerHeight()+4,left:t.left-n.left})}else t.left<460?se.css({top:t.top+e(le).outerHeight()+parseInt(e("body").css("border-top")||0,10),left:t.left}):se.css({top:t.top+e(le).outerHeight()+parseInt(e("body").css("border-top")||0,10),left:t.left+e(le).width()-se.width()-16})}}function i(){return se}function o(t){s(),B(),d(),a.customOpenAnimation?a.customOpenAnimation.call(se.get(0),function(){e(le).trigger("datepicker-opened",{relatedTarget:se})}):se.slideDown(t,function(){e(le).trigger("datepicker-opened",{relatedTarget:se})}),e(le).trigger("datepicker-open",{relatedTarget:se}),A(),u()}function d(){var e=a.getValue.call(ue),n=e?e.split(a.separator):"";if(n&&(1==n.length&&a.singleDate||n.length>=2)){var r=a.format;r.match(/Do/)&&(r=r.replace(/Do/,"D"),n[0]=n[0].replace(/(\d+)(th|nd|st)/,"$1"),n.length>=2&&(n[1]=n[1].replace(/(\d+)(th|nd|st)/,"$1"))),de=!1,n.length>=2?O(l(n[0],r,t.locale(a.language)),l(n[1],r,t.locale(a.language))):1==n.length&&a.singleDate&&j(l(n[0],r,t.locale(a.language))),de=!0}}function l(e,a,n){return t(e,a,n).isValid()?t(e,a,n).toDate():t().toDate()}function u(){var e=se.find(".gap").css("margin-left");e&&(e=parseInt(e));var t=se.find(".month1").width(),a=se.find(".gap").width()+(e?2*e:0),n=se.find(".month2").width();se.find(".month-wrapper").width(t+a+n)}function m(e,a){se.find("."+e+" input[type=range].hour-range").val(t(a).hours()),se.find("."+e+" input[type=range].minute-range").val(t(a).minutes()),c(e,t(a).format("HH"),t(a).format("mm"))}function h(e,n){a[e]=parseInt(t(parseInt(n)).startOf("day").add(t(a[e+"Time"]).format("HH"),"h").add(t(a[e+"Time"]).format("mm"),"m").valueOf())}function p(){m("time1",a.start),m("time2",a.end)}function c(e,n,r){function s(e,t){var s=t.format("HH"),i=t.format("mm");a[e]=t.startOf("day").add(n||s,"h").add(r||i,"m").valueOf()}switch(n&&se.find("."+e+" .hour-val").text(n),r&&se.find("."+e+" .minute-val").text(r),e){case"time1":a.start&&s("start",t(a.start)),s("startTime",t(a.startTime||t().valueOf()));break;case"time2":a.end&&s("end",t(a.end)),s("endTime",t(a.endTime||t().valueOf()))}T(),z(),S()}function f(){a.start=!1,a.end=!1,se.find(".day.checked").removeClass("checked"),se.find(".day.last-date-selected").removeClass("last-date-selected"),se.find(".day.first-date-selected").removeClass("first-date-selected"),a.setValue.call(ue,""),T(),z(),S()}function v(e){var n=e;return"week-range"===a.batchMode?n="monday"===a.startOfWeek?t(parseInt(e)).startOf("isoweek").valueOf():t(parseInt(e)).startOf("week").valueOf():"month-range"===a.batchMode&&(n=t(parseInt(e)).startOf("month").valueOf()),n}function g(e){var n=e;return"week-range"===a.batchMode?n="monday"===a.startOfWeek?t(parseInt(e)).endOf("isoweek").valueOf():t(parseInt(e)).endOf("week").valueOf():"month-range"===a.batchMode&&(n=t(parseInt(e)).endOf("month").valueOf()),n}function k(n){if(!n.hasClass("invalid")){var r=n.attr("time");if(n.addClass("checked"),a.singleDate?(a.start=r,a.end=!1):"week"===a.batchMode?"monday"===a.startOfWeek?(a.start=t(parseInt(r)).startOf("isoweek").valueOf(),a.end=t(parseInt(r)).endOf("isoweek").valueOf()):(a.end=t(parseInt(r)).endOf("week").valueOf(),a.start=t(parseInt(r)).startOf("week").valueOf()):"workweek"===a.batchMode?(a.start=t(parseInt(r)).day(1).valueOf(),a.end=t(parseInt(r)).day(5).valueOf()):"weekend"===a.batchMode?(a.start=t(parseInt(r)).day(6).valueOf(),a.end=t(parseInt(r)).day(7).valueOf()):"month"===a.batchMode?(a.start=t(parseInt(r)).startOf("month").valueOf(),a.end=t(parseInt(r)).endOf("month").valueOf()):a.start&&a.end||!a.start&&!a.end?(a.start=v(r),a.end=!1):a.start&&(a.end=g(r),a.time.enabled&&h("end",a.end)),a.time.enabled&&(a.start&&h("start",a.start),a.end&&h("end",a.end)),!a.singleDate&&a.start&&a.end&&a.start>a.end){var s=a.end;a.end=g(a.start),a.start=v(s),a.time.enabled&&a.swapTime&&p()}a.start=parseInt(a.start),a.end=parseInt(a.end),x(),a.start&&!a.end&&(e(le).trigger("datepicker-first-date-selected",{date1:new Date(a.start)}),D(n)),b(r),T(),z(),S(),M()}}function w(e){var n,r,s=parseInt(e.attr("data-start-time"),10);a.startWeek?(se.find(".week-number-selected").removeClass("week-number-selected"),n=new Date(s<a.startWeek?s:a.startWeek),r=new Date(s<a.startWeek?a.startWeek:s),a.startWeek=!1,a.start=t(n).day("monday"==a.startOfWeek?1:0).valueOf(),a.end=t(r).day("monday"==a.startOfWeek?7:6).valueOf()):(a.startWeek=s,e.addClass("week-number-selected"),n=new Date(s),a.start=t(n).day("monday"==a.startOfWeek?1:0).valueOf(),a.end=t(n).day("monday"==a.startOfWeek?7:6).valueOf()),b(),T(),z(),S(),M()}function y(e){if(e=parseInt(e,10),a.startDate&&F(e,a.startDate)<0)return!1;if(a.endDate&&F(e,a.endDate)>0)return!1;if(a.start&&!a.end&&!a.singleDate){if(a.maxDays>0&&C(e,a.start)>a.maxDays)return!1;if(a.minDays>0&&C(e,a.start)<a.minDays)return!1;if(a.selectForward&&e<a.start)return!1;if(a.selectBackward&&e>a.start)return!1;if(a.beforeShowDay&&"function"==typeof a.beforeShowDay){for(var t=!0,n=e;C(n,a.start)>1;){var r=a.beforeShowDay(new Date(n));if(!r[0]){t=!1;break}if(Math.abs(n-a.start)<864e5)break;n>a.start&&(n-=864e5),n<a.start&&(n+=864e5)}if(!t)return!1}}return!0}function b(){return se.find(".day.invalid.tmp").removeClass("tmp invalid").addClass("valid"),a.start&&!a.end&&se.find(".day.toMonth.valid").each(function(){var t=parseInt(e(this).attr("time"),10);y(t)?e(this).addClass("valid tmp").removeClass("invalid"):e(this).addClass("invalid tmp").removeClass("valid")}),!0}function D(t){var n=parseInt(t.attr("time")),r="";if(t.hasClass("has-tooltip")&&t.attr("data-tooltip"))r='<span style="white-space:nowrap">'+t.attr("data-tooltip")+"</span>";else if(!t.hasClass("invalid"))if(a.singleDate)se.find(".day.hovering").removeClass("hovering"),t.addClass("hovering");else if(se.find(".day").each(function(){var t=parseInt(e(this).attr("time"));a.start,a.end;t==n?e(this).addClass("hovering"):e(this).removeClass("hovering"),a.start&&!a.end&&(a.start<t&&n>=t||a.start>t&&n<=t)?e(this).addClass("hovering"):e(this).removeClass("hovering")}),a.start&&!a.end){var s=C(n,a.start);a.hoveringTooltip&&("function"==typeof a.hoveringTooltip?r=a.hoveringTooltip(s,a.start,n):a.hoveringTooltip===!0&&s>1&&(r=s+" "+ae("days")))}if(r){var i=t.offset(),o=se.offset(),d=i.left-o.left,l=i.top-o.top;d+=t.width()/2;var u=se.find(".date-range-length-tip"),m=u.css({visibility:"hidden",display:"none"}).html(r).width(),h=u.height();d-=m/2,l-=h,setTimeout(function(){u.css({left:d,top:l,display:"block",visibility:"visible"})},10)}else se.find(".date-range-length-tip").hide()}function x(){se.find(".day.hovering").removeClass("hovering"),se.find(".date-range-length-tip").hide()}function M(){a.singleDate===!0?de&&a.start&&a.autoClose&&N():de&&a.start&&a.end&&a.autoClose&&N()}function T(){var e=Math.ceil((a.end-a.start)/864e5)+1;a.singleDate?a.start&&!a.end?se.find(".drp_top-bar").removeClass("error").addClass("normal"):se.find(".drp_top-bar").removeClass("error").removeClass("normal"):a.maxDays&&e>a.maxDays?(a.start=!1,a.end=!1,se.find(".day").removeClass("checked"),se.find(".drp_top-bar").removeClass("normal").addClass("error").find(".error-top").html(ae("less-than").replace("%d",a.maxDays))):a.minDays&&e<a.minDays?(a.start=!1,a.end=!1,se.find(".day").removeClass("checked"),se.find(".drp_top-bar").removeClass("normal").addClass("error").find(".error-top").html(ae("more-than").replace("%d",a.minDays))):a.start||a.end?se.find(".drp_top-bar").removeClass("error").addClass("normal"):se.find(".drp_top-bar").removeClass("error").removeClass("normal"),a.singleDate&&a.start&&!a.end||!a.singleDate&&a.start&&a.end?se.find(".apply-btn").removeClass("disabled"):se.find(".apply-btn").addClass("disabled"),a.batchMode&&(a.start&&a.startDate&&F(a.start,a.startDate)<0||a.end&&a.endDate&&F(a.end,a.endDate)>0)&&(a.start=!1,a.end=!1,se.find(".day").removeClass("checked"))}function z(t,n){se.find(".start-day").html("..."),se.find(".end-day").html("..."),se.find(".selected-days").hide(),a.start&&se.find(".start-day").html(I(new Date(parseInt(a.start)))),a.end&&se.find(".end-day").html(I(new Date(parseInt(a.end))));var r;a.start&&a.singleDate?(se.find(".apply-btn").removeClass("disabled"),r=I(new Date(a.start)),a.setValue.call(ue,r,I(new Date(a.start)),I(new Date(a.end))),de&&!n&&e(le).trigger("datepicker-change",{value:r,date1:new Date(a.start)})):a.start&&a.end?(se.find(".selected-days").show().find(".selected-days-num").html(C(a.end,a.start)),se.find(".apply-btn").removeClass("disabled"),r=I(new Date(a.start))+a.separator+I(new Date(a.end)),a.setValue.call(ue,r,I(new Date(a.start)),I(new Date(a.end))),de&&!n&&e(le).trigger("datepicker-change",{value:r,date1:new Date(a.start),date2:new Date(a.end)})):t?se.find(".apply-btn").removeClass("disabled"):se.find(".apply-btn").addClass("disabled")}function C(e,t){
+return Math.abs(Z(e)-Z(t))+1}function O(e,t,n){if(e.getTime()>t.getTime()){var r=t;t=e,e=r,r=null}var s=!0;return a.startDate&&F(e,a.startDate)<0&&(s=!1),a.endDate&&F(t,a.endDate)>0&&(s=!1),s?(a.start=e.getTime(),a.end=t.getTime(),a.time.enabled&&(m("time1",e),m("time2",t)),(a.stickyMonths||F(e,t)>0&&0===L(e,t))&&(a.lookBehind?e=R(t):t=H(e)),a.stickyMonths&&a.endDate!==!1&&L(t,a.endDate)>0&&(e=R(e),t=R(t)),a.stickyMonths||0===L(e,t)&&(a.lookBehind?e=R(t):t=H(e)),Y(e,"month1"),Y(t,"month2"),A(),T(),z(!1,n),void M()):(Y(a.startDate,"month1"),Y(H(a.startDate),"month2"),void A())}function j(e){var t=!0;if(a.startDate&&F(e,a.startDate)<0&&(t=!1),a.endDate&&F(e,a.endDate)>0&&(t=!1),!t)return void Y(a.startDate,"month1");if(a.start=e.getTime(),a.time.enabled&&m("time1",e),Y(e,"month1"),a.singleMonth!==!0){var n=H(e);Y(n,"month2")}A(),z(),M()}function S(){(a.start||a.end)&&(se.find(".day").each(function(){var n=parseInt(e(this).attr("time")),r=a.start,s=a.end;a.time.enabled&&(n=t(n).startOf("day").valueOf(),r=t(r||t().valueOf()).startOf("day").valueOf(),s=t(s||t().valueOf()).startOf("day").valueOf()),a.start&&a.end&&s>=n&&r<=n||a.start&&!a.end&&t(r).format("YYYY-MM-DD")==t(n).format("YYYY-MM-DD")?e(this).addClass("checked"):e(this).removeClass("checked"),a.start&&t(r).format("YYYY-MM-DD")==t(n).format("YYYY-MM-DD")?e(this).addClass("first-date-selected"):e(this).removeClass("first-date-selected"),a.end&&t(s).format("YYYY-MM-DD")==t(n).format("YYYY-MM-DD")?e(this).addClass("last-date-selected"):e(this).removeClass("last-date-selected")}),se.find(".week-number").each(function(){e(this).attr("data-start-time")==a.startWeek&&e(this).addClass("week-number-selected")}))}function Y(e,n){e=t(e).toDate();var r=W(e.getMonth());se.find("."+n+" .month-name").html(r+" "+e.getFullYear()),se.find("."+n+" tbody").html(X(e)),a[n]=e,b(),V()}function V(){se.find(".day").unbind("click").click(function(t){k(e(this))}),se.find(".day").unbind("mouseenter").mouseenter(function(t){D(e(this))}),se.find(".day").unbind("mouseleave").mouseleave(function(e){se.find(".date-range-length-tip").hide(),a.singleDate&&x()}),se.find(".week-number").unbind("click").click(function(t){w(e(this))})}function P(e,t){se.find("."+t).append(q()),m(t,e)}function W(e){return ae("month-name")[e]}function I(e){return t(e).format(a.format)}function A(){S();var e=parseInt(t(a.month1).format("YYYYMM")),n=parseInt(t(a.month2).format("YYYYMM")),r=Math.abs(e-n),s=r>1&&89!=r;s?se.addClass("has-gap").removeClass("no-gap").find(".gap").css("visibility","visible"):se.removeClass("has-gap").addClass("no-gap").find(".gap").css("visibility","hidden");var i=se.find("table.month1").height(),o=se.find("table.month2").height();se.find(".gap").height(Math.max(i,o)+10)}function N(){if(!a.alwaysOpen){var t=function(){e(le).data("date-picker-opened",!1),e(le).trigger("datepicker-closed",{relatedTarget:se})};a.customCloseAnimation?a.customCloseAnimation.call(se.get(0),t):e(se).slideUp(a.duration,t),e(le).trigger("datepicker-close",{relatedTarget:se})}}function B(){Y(a.month1,"month1"),Y(a.month2,"month2")}function L(e,a){var n=parseInt(t(e).format("YYYYMM"))-parseInt(t(a).format("YYYYMM"));return n>0?1:0===n?0:-1}function F(e,a){var n=parseInt(t(e).format("YYYYMMDD"))-parseInt(t(a).format("YYYYMMDD"));return n>0?1:0===n?0:-1}function H(e){return t(e).add(1,"months").toDate()}function R(e){return t(e).add(-1,"months").toDate()}function q(){return"<div><span>"+ae("Time")+': <span class="hour-val">00</span>:<span class="minute-val">00</span></span></div><div class="hour"><label>'+ae("Hour")+': <input type="range" class="hour-range" name="hour" min="0" max="23"></label></div><div class="minute"><label>'+ae("Minute")+': <input type="range" class="minute-range" name="minute" min="0" max="59"></label></div>'}function $(){var t='<div class="date-picker-wrapper';a.extraClass&&(t+=" "+a.extraClass+" "),a.singleDate&&(t+=" single-date "),a.showShortcuts||(t+=" no-shortcuts "),a.showTopbar||(t+=" no-topbar "),a.customTopBar&&(t+=" custom-topbar "),t+='">',a.showTopbar&&(t+='<div class="drp_top-bar">',a.customTopBar?("function"==typeof a.customTopBar&&(a.customTopBar=a.customTopBar()),t+='<div class="custom-top">'+a.customTopBar+"</div>"):(t+='<div class="normal-top"><span style="color:#333">'+ae("selected")+' </span> <b class="start-day">...</b>',a.singleDate||(t+=' <span class="separator-day">'+a.separator+'</span> <b class="end-day">...</b> <i class="selected-days">(<span class="selected-days-num">3</span> '+ae("days")+")</i>"),t+="</div>",t+='<div class="error-top">error</div><div class="default-top">default</div>'),t+='<input type="button" class="apply-btn disabled'+E()+'" value="'+ae("apply")+'" />',t+="</div>");var n=a.showWeekNumbers?6:5,r="&lt;";a.customArrowPrevSymbol&&(r=a.customArrowPrevSymbol);var s="&gt;";if(a.customArrowNextSymbol&&(s=a.customArrowNextSymbol),t+='<div class="month-wrapper">   <table class="month1" cellspacing="0" border="0" cellpadding="0">       <thead>           <tr class="caption">               <th style="width:27px;">                   <span class="prev">'+r+'                   </span>               </th>               <th colspan="'+n+'" class="month-name">               </th>               <th style="width:27px;">'+(a.singleDate||!a.stickyMonths?'<span class="next">'+s+"</span>":"")+'               </th>           </tr>           <tr class="week-name">'+J()+"       </thead>       <tbody></tbody>   </table>",G()&&(t+='<div class="gap">'+_()+'</div><table class="month2" cellspacing="0" border="0" cellpadding="0">   <thead>   <tr class="caption">       <th style="width:27px;">'+(a.stickyMonths?"":'<span class="prev">'+r+"</span>")+'       </th>       <th colspan="'+n+'" class="month-name">       </th>       <th style="width:27px;">           <span class="next">'+s+'</span>       </th>   </tr>   <tr class="week-name">'+J()+"   </thead>   <tbody></tbody></table>"),t+='<div style="clear:both;height:0;font-size:0;"></div><div class="time"><div class="time1"></div>',a.singleDate||(t+='<div class="time2"></div>'),t+='</div><div style="clear:both;height:0;font-size:0;"></div></div>',t+='<div class="footer">',a.showShortcuts){t+='<div class="shortcuts"><b>'+ae("shortcuts")+"</b>";var i=a.shortcuts;if(i){var o;if(i["prev-days"]&&i["prev-days"].length>0){t+='&nbsp;<span class="prev-days">'+ae("past");for(var d=0;d<i["prev-days"].length;d++)o=i["prev-days"][d],o+=ae(i["prev-days"][d]>1?"days":"day"),t+=' <a href="javascript:;" shortcut="day,-'+i["prev-days"][d]+'">'+o+"</a>";t+="</span>"}if(i["next-days"]&&i["next-days"].length>0){t+='&nbsp;<span class="next-days">'+ae("following");for(var d=0;d<i["next-days"].length;d++)o=i["next-days"][d],o+=ae(i["next-days"][d]>1?"days":"day"),t+=' <a href="javascript:;" shortcut="day,'+i["next-days"][d]+'">'+o+"</a>";t+="</span>"}if(i.prev&&i.prev.length>0){t+='&nbsp;<span class="prev-buttons">'+ae("previous");for(var d=0;d<i.prev.length;d++)o=ae("prev-"+i.prev[d]),t+=' <a href="javascript:;" shortcut="prev,'+i.prev[d]+'">'+o+"</a>";t+="</span>"}if(i.next&&i.next.length>0){t+='&nbsp;<span class="next-buttons">'+ae("next");for(var d=0;d<i.next.length;d++)o=ae("next-"+i.next[d]),t+=' <a href="javascript:;" shortcut="next,'+i.next[d]+'">'+o+"</a>";t+="</span>"}}if(a.customShortcuts)for(var d=0;d<a.customShortcuts.length;d++){var l=a.customShortcuts[d];t+='&nbsp;<span class="custom-shortcut"><a href="javascript:;" shortcut="custom">'+l.name+"</a></span>"}t+="</div>"}if(a.showCustomValues&&(t+='<div class="customValues"><b>'+(a.customValueLabel||ae("custom-values"))+"</b>",a.customValues))for(var d=0;d<a.customValues.length;d++){var u=a.customValues[d];t+='&nbsp;<span class="custom-value"><a href="javascript:;" custom="'+u.value+'">'+u.name+"</a></span>"}return t+="</div></div>",e(t)}function E(){var e="";return a.autoClose===!0&&(e+=" hide"),""!==a.applyBtnClass&&(e+=" "+a.applyBtnClass),e}function J(){var e=a.showWeekNumbers?"<th>"+ae("week-number")+"</th>":"";return"monday"==a.startOfWeek?e+"<th>"+ae("week-1")+"</th><th>"+ae("week-2")+"</th><th>"+ae("week-3")+"</th><th>"+ae("week-4")+"</th><th>"+ae("week-5")+"</th><th>"+ae("week-6")+"</th><th>"+ae("week-7")+"</th>":e+"<th>"+ae("week-7")+"</th><th>"+ae("week-1")+"</th><th>"+ae("week-2")+"</th><th>"+ae("week-3")+"</th><th>"+ae("week-4")+"</th><th>"+ae("week-5")+"</th><th>"+ae("week-6")+"</th>"}function K(e){return e=t(e),!(!a.startDate||!e.endOf("month").isBefore(a.startDate))||!(!a.endDate||!e.startOf("month").isAfter(a.endDate))}function _(){for(var e=['<div class="gap-top-mask"></div><div class="gap-bottom-mask"></div><div class="gap-lines">'],t=0;t<20;t++)e.push('<div class="gap-line"><div class="gap-1"></div><div class="gap-2"></div><div class="gap-3"></div></div>');return e.push("</div>"),e.join("")}function G(){return!a.singleMonth}function U(t,a,n){var r=e.extend(!0,{},t);e.each(a,function(e,t){var a=t(n);for(var s in a)r.hasOwnProperty(s)?r[s]+=a[s]:r[s]=a[s]});var s="";for(var i in r)r.hasOwnProperty(i)&&(s+=i+'="'+r[i]+'" ');return s}function Z(e){return Math.floor(Q(e)/864e5)}function Q(e){return t.isMoment(e)&&(e=e.toDate().getTime()),"object"==typeof e&&e.getTime&&(e=e.getTime()),"string"!=typeof e||e.match(/\d{13}/)||(e=t(e,a.format).toDate().getTime()),e=parseInt(e,10)-60*(new Date).getTimezoneOffset()*1e3}function X(e){var n=[];e.setDate(1);var r=(new Date(e.getTime()-864e5),new Date),s=e.getDay();0===s&&"monday"===a.startOfWeek&&(s=7);var i,o;if(s>0)for(var d=s;d>0;d--){var l=new Date(e.getTime()-864e5*d);o=y(l.getTime()),a.startDate&&F(l,a.startDate)<0&&(o=!1),a.endDate&&F(l,a.endDate)>0&&(o=!1),n.push({date:l,type:"lastMonth",day:l.getDate(),time:l.getTime(),valid:o})}for(var u=e.getMonth(),d=0;d<40;d++)i=t(e).add(d,"days").toDate(),o=y(i.getTime()),a.startDate&&F(i,a.startDate)<0&&(o=!1),a.endDate&&F(i,a.endDate)>0&&(o=!1),n.push({date:i,type:i.getMonth()==u?"toMonth":"nextMonth",day:i.getDate(),time:i.getTime(),valid:o});for(var m=[],h=0;h<6&&"nextMonth"!=n[7*h].type;h++){m.push("<tr>");for(var l=0;l<7;l++){var p="monday"==a.startOfWeek?l+1:l;i=n[7*h+p];var c=t(i.time).format("L")==t(r).format("L");if(i.extraClass="",i.tooltip="",i.valid&&a.beforeShowDay&&"function"==typeof a.beforeShowDay){var f=a.beforeShowDay(t(i.time).toDate());i.valid=f[0],i.extraClass=f[1]||"",i.tooltip=f[2]||"",""!==i.tooltip&&(i.extraClass+=" has-tooltip ")}var v={time:i.time,"data-tooltip":i.tooltip,"class":"day "+i.type+" "+i.extraClass+" "+(i.valid?"valid":"invalid")+" "+(c?"real-today":"")};0===l&&a.showWeekNumbers&&m.push('<td><div class="week-number" data-start-time="'+i.time+'">'+a.getWeekNumber(i.date)+"</div></td>"),m.push("<td "+U({},a.dayTdAttrs,i)+"><div "+U(v,a.dayDivAttrs,i)+">"+ee(i.time,i.day)+"</div></td>")}m.push("</tr>")}return m.join("")}function ee(e,t){return a.showDateFilter&&"function"==typeof a.showDateFilter?a.showDateFilter(e,t):t}function te(){if("auto"==a.language){var t=navigator.language?navigator.language:navigator.browserLanguage;if(!t)return e.dateRangePickerLanguages["default"];t=t.toLowerCase();for(var n in e.dateRangePickerLanguages)if(t.indexOf(n)!==-1)return e.dateRangePickerLanguages[n];return e.dateRangePickerLanguages["default"]}return a.language&&a.language in e.dateRangePickerLanguages?e.dateRangePickerLanguages[a.language]:e.dateRangePickerLanguages["default"]}function ae(t){var a=t.toLowerCase(),n=t in oe?oe[t]:a in oe?oe[a]:null,r=e.dateRangePickerLanguages["default"];return null==n&&(n=t in r?r[t]:a in r?r[a]:""),n}function ne(){var e=a.defaultTime?a.defaultTime:new Date;return a.lookBehind?(a.startDate&&L(e,a.startDate)<0&&(e=H(t(a.startDate).toDate())),a.endDate&&L(e,a.endDate)>0&&(e=t(a.endDate).toDate())):(a.startDate&&L(e,a.startDate)<0&&(e=t(a.startDate).toDate()),a.endDate&&L(H(e),a.endDate)>0&&(e=R(t(a.endDate).toDate()))),a.singleDate&&(a.startDate&&L(e,a.startDate)<0&&(e=t(a.startDate).toDate()),a.endDate&&L(e,a.endDate)>0&&(e=t(a.endDate).toDate())),e}function re(e){e||(e=ne()),a.lookBehind?(Y(R(e),"month1"),Y(e,"month2")):(Y(e,"month1"),Y(H(e),"month2")),a.singleDate&&Y(e,"month1"),S(),A()}a||(a={}),a=e.extend(!0,{autoClose:!1,format:"YYYY-MM-DD",separator:" to ",language:"auto",startOfWeek:"sunday",getValue:function(){return e(this).val()},setValue:function(t){e(this).attr("readonly")||e(this).is(":disabled")||t==e(this).val()||e(this).val(t)},startDate:!1,endDate:!1,time:{enabled:!1},minDays:0,maxDays:0,showShortcuts:!1,shortcuts:{},customShortcuts:[],inline:!1,container:"body",alwaysOpen:!1,singleDate:!1,lookBehind:!1,batchMode:!1,duration:200,stickyMonths:!1,dayDivAttrs:[],dayTdAttrs:[],selectForward:!1,selectBackward:!1,applyBtnClass:"",singleMonth:"auto",hoveringTooltip:function(e,t,a){return e>1?e+" "+ae("days"):""},showTopbar:!0,swapTime:!1,showWeekNumbers:!1,getWeekNumber:function(e){return t(e).format("w")},customOpenAnimation:null,customCloseAnimation:null,customArrowPrevSymbol:null,customArrowNextSymbol:null},a),a.start=!1,a.end=!1,a.startWeek=!1,a.isTouchDevice="ontouchstart"in window||navigator.msMaxTouchPoints,a.isTouchDevice&&(a.hoveringTooltip=!1),"auto"==a.singleMonth&&(a.singleMonth=e(window).width()<480),a.singleMonth&&(a.stickyMonths=!1),a.showTopbar||(a.autoClose=!0),a.startDate&&"string"==typeof a.startDate&&(a.startDate=t(a.startDate,a.format).toDate()),a.endDate&&"string"==typeof a.endDate&&(a.endDate=t(a.endDate,a.format).toDate());var se,ie,oe=te(),de=!1,le=this,ue=e(le).get(0);return e(this).unbind(".datepicker").bind("click.datepicker",function(e){var t=se.is(":visible");t||o(a.duration)}).bind("change.datepicker",function(e){d()}).bind("keyup.datepicker",function(){try{clearTimeout(ie)}catch(e){}ie=setTimeout(function(){d()},2e3)}),r.call(this),a.alwaysOpen&&o(0),e(this).data("dateRangePicker",{setStart:function(e){return"string"==typeof e&&(e=t(e,a.format).toDate()),a.end=!1,j(e),this},setEnd:function(e,n){var r=new Date;return r.setTime(a.start),"string"==typeof e&&(e=t(e,a.format).toDate()),O(r,e,n),this},setDateRange:function(e,n,r){"string"==typeof e&&"string"==typeof n&&(e=t(e,a.format).toDate(),n=t(n,a.format).toDate()),O(e,n,r)},clear:f,close:N,open:o,redraw:B,getDatePicker:i,resetMonthsView:re,destroy:function(){e(le).unbind(".datepicker"),e(le).data("dateRangePicker",""),e(le).data("date-picker-opened",null),se.remove(),e(window).unbind("resize.datepicker",s),e(document).unbind("click.datepicker",N)}}),e(window).bind("resize.datepicker",s),this}});
 (function () {
     var checkHeader = function () {
         var scrolled = window.pageYOffset || document.documentElement.scrollTop;
@@ -11945,6 +12504,10 @@ $(document).ready(function () {
         return this;
     };
 }( jQuery ));
+$('.js-tour-search-date').dateRangePicker({
+    separator: ' по ',
+    format: 'DD.MM.YY'
+});
 $(document).ready(function(){
     $('body').append(
         '<div id="verstka" style="position: fixed; top: 40%; right: 0; background: #fff; border: 1px solid #cecece; box-shadow: 2px 3px 10px #808080; padding: 15px; z-index: 999;"><span  id="close" style="cursor:pointer; border: 1px solid #cecece;">X</span> Страницы верстки:<br />' +

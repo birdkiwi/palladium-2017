@@ -17,7 +17,7 @@
         <div class="wrapper-columns" style="margin-top: 25px; margin-bottom: 25px;">
             <div class="wrapper-columns-left">
                 <div class="content-block shadow-block">
-                    <div class="content-block-title">
+                    <div class="content-block-title content-block-title-border">
                         Аккордеон
 
                         <div class="content-block-title-filter">
@@ -61,7 +61,7 @@
             <div class="wrapper-columns-right">
                 <section style="margin-bottom: 25px;">
                     <div class="content-block">
-                        <div class="content-block-title">
+                        <div class="content-block-title content-block-title-border">
                             Информация
                         </div>
                         <?php include "blocks/sidebar-menu-module.php"; ?>

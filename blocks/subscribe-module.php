@@ -1,5 +1,5 @@
 <div class="content-block shadow-block subscribe-module">
-    <div class="content-block-title subscribe-module-title">
+    <div class="content-block-title content-block-title-border subscribe-module-title">
         <?php include "images/icon-email-magenta.svg"; ?>
         <span class="tt-uppercase">Подписка</span>
     </div>

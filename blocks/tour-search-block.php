@@ -41,11 +41,11 @@
             </div>
             <div class="tour-search-block-form-control">
                 <label>Когда</label>
-                <input type="text" name="date">
+                <input type="text" name="date" class="tour-search-block-form-control-input tour-search-block-form-control-input-date js-tour-search-date">
             </div>
             <div class="tour-search-block-form-control">
                 <label>Ночей</label>
-                <input type="text" name="nights">
+                <input type="text" name="nights" class="tour-search-block-form-control-input tour-search-block-form-control-input-nights">
             </div>
             <div class="tour-search-block-form-control">
                 <label>Категория</label>
@@ -58,7 +58,7 @@
             </div>
             <div class="tour-search-block-form-control">
                 <label>Человек</label>
-                <input type="text" name="persons">
+                <input type="text" name="persons" class="tour-search-block-form-control-input tour-search-block-form-control-input-persons">
             </div>
             <div class="tour-search-block-form-control">
                 <label>&nbsp;</label>

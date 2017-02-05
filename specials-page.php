@@ -164,7 +164,7 @@
             <div class="wrapper-columns-right">
                 <div class="m-b-md">
                     <div class="content-block">
-                        <div class="content-block-title">
+                        <div class="content-block-title content-block-title-border">
                             Информация
                         </div>
                         <?php include "blocks/sidebar-menu-module.php"; ?>
